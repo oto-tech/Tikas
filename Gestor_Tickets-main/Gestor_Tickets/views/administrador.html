@@ -4,85 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador - Gestión de Tickets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            background-color: #f0f0f0;
-        }
-        .sidebar {
-            width: 200px; /* Ajusta el ancho del panel lateral */
-            height: 100vh;
-            background-color: #343a40;
-            color: #fff;
-        }
-        .sidebar .nav-link {
-            color: #fff;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-        }
-        .card-body {
-            background-color: #fff;
-        }
-        .content {
-            margin-left: 200px; /* Ajusta el margen izquierdo del contenido principal */
-        }
-        .stats-card {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .stats-card .card-body {
-            padding: 1.5rem;
-        }
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .ticket-item:hover {
-            background-color: rgba(0, 0, 0, 0.1); /* Cambia el valor de 0.1 según lo oscuro que desees que sea */
-            cursor: pointer; /* Cambia el cursor al pasar el mouse */
-        }
-        /* Estilo personalizado para botones */
-.btn-custom-green {
-    background-color: #8BC34A;
-    color: white;
-    border: none;
-}
-
-.btn-custom-green:hover {
-    background-color: #7CB342;
-}
-
-.btn-custom-orange {
-    background-color: #FFB74D;
-    color: white;
-    border: none;
-}
-
-.btn-custom-orange:hover {
-    background-color: #FFA726;
-}
-
-.btn-custom-red {
-    background-color: #E57373;
-    color: white;
-    border: none;
-}
-
-.btn-custom-red:hover {
-    background-color: #EF5350;
-}
-    </style>
-    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="stylesAdministrador.css">
 </head>
 <body>
-
-
-
-    <!-- Panel -->
     <div class="d-flex">
-        <!-- Panel -->
+        <!-- Sidebar -->
         <div class="sidebar d-flex flex-column p-3">
             <h2 class="text-center">Panel</h2>
             <hr>
@@ -90,7 +21,6 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#crearTicketModal">
                         <i class="fas fa-plus-circle"></i> Crear Ticket
-                    
                     </a>
                 </li>
                 <li>
@@ -101,7 +31,6 @@
                 <li>
                     <a href="#" class="nav-link asignar-ticket-btn" data-bs-toggle="modal" data-bs-target="#asignarTicketModal">
                         <i class="fas fa-user-plus"></i> Asignar Ticket
-                    </a>
                     </a>
                 </li>
                 <li>
@@ -127,15 +56,12 @@
             </ul>
             <hr>
             <div class="text-center">
-                <span>Bienvenido/a  <span id="nombre"></span><br>
-                <a href="/Users/crist/OneDrive/Escritorio/Gestor_Tickets-main/Gestor_Tickets-main/Gestor_Tickets/index.html" class="text-white">Salir</a>
+                <span>Bienvenido/a <span id="nombreUsuario"></span></span><br>
+                <a href="index.html" class="text-white">Salir</a>
             </div>
         </div>
 
-        <a href="#" class="nav-link asignar-ticket-btn" data-bs-toggle="modal" data-bs-target="#asignarTicketModal">
-            <i class="fas fa-user-plus"></i> Asignar Ticket
-
-        <!-- Content Main -->
+        <!-- Main Content -->
         <div class="content p-4">
             <div class="container">
                 <div class="row mb-4">
@@ -143,233 +69,138 @@
                         <h2>Gestión de Tickets</h2>
                     </div>
                 </div>
-                <h2 class="mb-3">Lista de Tickets</h2> <!-- Título fuera de la tabla -->
-                <div class="table-responsive" style="width: 700px; max-height: 500px; overflow-y: auto;"> <!-- Nuevo contenedor con dimensiones personalizadas -->
-                    <ul class="list-group list-group-flush" id="listaTickets" style="max-width: 100%;"> <!-- Ancho máximo modificado -->
+                <h2 class="mb-3">Lista de Tickets</h2>
+                <div class="table-responsive lista-tickets-container">
+                    <ul class="list-group list-group-flush" id="listaTickets">
                         <!-- Contenido de la lista de tickets -->
                     </ul>
                 </div>
 
-                <!-- Ventana emergente para mostrar la descripción del ticket -->
+                <!-- Modal Descripción del Ticket -->
                 <div class="modal fade" id="descripcionTicketModal" tabindex="-1" aria-labelledby="descripcionTicketModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="descripcionTicketModalLabel">Descripción del Ticket</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <div class="modal-body">
-                                <!-- Contenido de la descripción del ticket -->
                                 <p id="ticketDescription"></p>
                                 <p id="creadoPor"></p>
                                 <p id="prioridad"></p>
                             </div>
                             <div class="modal-footer">
-                                <!-- Botones de escalamiento -->
-                                <div class="btn-group" role="group" aria-label="Escalate Ticket">
-                                    <button type="button" class="btn btn-custom-green" id="escalateLow" data-prioridad="1" data-ticket-id="">Escalar 1</button>
-                                    <button type="button" class="btn btn-custom-orange" id="escalateMedium" data-prioridad="2" data-ticket-id="">Escalar 2</button>
-                                    <button type="button" class="btn btn-custom-red" id="escalateHigh" data-prioridad="3" data-ticket-id="">Escalar 3</button>
+                                <div class="btn-group" role="group" aria-label="Escalar Ticket">
+                                    <button type="button" class="btn btn-custom-green" id="escalateLow" data-prioridad="1">Escalar 1</button>
+                                    <button type="button" class="btn btn-custom-orange" id="escalateMedium" data-prioridad="2">Escalar 2</button>
+                                    <button type="button" class="btn btn-custom-red" id="escalateHigh" data-prioridad="3">Escalar 3</button>
                                 </div>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                
-       <!-- Crear Ticket -->
-    <div class="modal fade" id="crearTicketModal" tabindex="-1" aria-labelledby="crearTicketModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="crearTicketModalLabel">Crear Nuevo Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <!-- Modal Crear Ticket -->
+                <div class="modal fade" id="crearTicketModal" tabindex="-1" aria-labelledby="crearTicketModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="crearTicketModalLabel">Crear Nuevo Ticket</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="ticketForm">
+                                    <div class="mb-3">
+                                        <label for="titulo" class="form-label">Título del Ticket</label>
+                                        <input type="text" class="form-control" id="titulo" placeholder="Ingrese el título" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="descripcion" class="form-label">Descripción del Ticket</label>
+                                        <textarea class="form-control" id="descripcion" rows="3" placeholder="Ingrese la descripción" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="categoria" class="form-label">Categoría del Ticket</label>
+                                        <select class="form-select" id="categoria" required>
+                                            <option value="1">Soporte General</option>
+                                            <option value="2">Problemas Técnicos</option>
+                                            <option value="3">Solicitud de Mejora</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" id="btnCrearTicket" class="btn btn-primary">Crear Ticket</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form id="ticketForm">
-                        <div class="mb-3">
-                            <label for="titulo" class="form-label">Título del Ticket</label>
-                            <input type="text" class="form-control" id="titulo" placeholder="Ingrese el título" required>
+
+                <!-- Modal Crear Usuario -->
+                <div class="modal fade" id="crearUsuarioModal" tabindex="-1" aria-labelledby="crearUsuarioModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="crearUsuarioModalLabel">Crear Nuevo Usuario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="usuarioForm">
+                                    <div class="mb-3">
+                                        <label for="nombreNuevoUsuario" class="form-label">Nombre de Usuario</label>
+                                        <input type="text" class="form-control" id="nombreNuevoUsuario" placeholder="Ingrese el nombre de usuario" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="emailNuevoUsuario" class="form-label">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="emailNuevoUsuario" placeholder="Ingrese el correo electrónico" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="rolNuevoUsuario" class="form-label">Rol</label>
+                                        <select class="form-select" id="rolNuevoUsuario" required>
+                                            <option value="1">Administrador</option>
+                                            <option value="2">Técnico</option>
+                                            <option value="3">Usuario</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción del Ticket</label>
-                            <textarea class="form-control" id="descripcion" rows="3" placeholder="Ingrese la descripción" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="categoria" class="form-label">Categoría del Ticket</label>
-                            <select class="form-select" id="categoria" required>
-                                <option value="1">Soporte General</option>
-                                <option value="2">Problemas Técnicos</option>
-                                <option value="3">Solicitud de Mejora</option>
-                            </select>
-                        </div>
-                        <button type="submit" id="btnCrearTicket" class="btn btn-primary">Crear Ticket</button>
-                    </form>
+                    </div>
                 </div>
+
+                <!-- Modal Asignar Ticket -->
+                <div class="modal fade" id="asignarTicketModal" tabindex="-1" aria-labelledby="asignarTicketModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="asignarTicketModalLabel">Asignar Ticket</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="asignarTicketForm">
+                                    <div class="mb-3">
+                                        <label for="ticketIdAsignar" class="form-label">ID del Ticket</label>
+                                        <input type="number" class="form-control" id="ticketIdAsignar" placeholder="Ingrese el ID del ticket" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tecnicoIdAsignar" class="form-label">ID del Técnico</label>
+                                        <input type="number" class="form-control" id="tecnicoIdAsignar" placeholder="Ingrese el ID del técnico" required>
+                                    </div>
+                                    <button type="submit" id="btnAsignarTicket" class="btn btn-primary">Asignar Ticket</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    
-
-        <!-- Crear Usuario -->
-        <div class="modal fade" id="crearUsuarioModal" tabindex="-1" aria-labelledby="crearUsuarioModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="crearUsuarioModalLabel">Crear Nuevo Usuario</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
-                                <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese el nombre de usuario">
-                            </div>
-                            <div class="mb-3">
-                                <label for="emailUsuario" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="emailUsuario" placeholder="Ingrese el correo electrónico">
-                            </div>
-                            <div class="mb-3">
-                                <label for="rolUsuario" class="form-label">Rol</label>
-                                <select class="form-select" id="rolUsuario">
-                                    <option value="admin">Administrador</option>
-                                    <option value="tecnico">Técnico</option>
-                                    <option value="tecnico">Usuario</option>
-                                </select>
-                            </div>
-                            <button type="button" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Scripts de Bootstrap y otros -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-    // Realizar una solicitud GET para obtener todos los tickets
-    $.ajax({
-        url: 'http://localhost:3000/tickets/todos-los-tickets',
-        method: 'GET',
-        success: function(response) {
-            // Manejar la respuesta del servidor
-            const tickets = response.tickets;
-            const listaTickets = $('#listaTickets');
-            tickets.forEach(ticket => {
-                listaTickets.append(`<li class="list-group-item ticket-item" data-description="${ticket.descripcion}" data-created-by="${ticket.nombre_usuario}" data-priority="${ticket.prioridad_id}" data-ticket-id="${ticket.ticket_id}">${ticket.asunto}</li>`);
-            });
-        },
-        error: function(xhr, status, error) {
-            // Manejar errores
-            console.error('Error al obtener los tickets:', error);
-        }
-    });
-
-    // Agregar evento click para mostrar la descripción del ticket en una ventana emergente
-    $('#listaTickets').on('click', '.ticket-item', function() {
-        // Obtener la descripción, el nombre del creador y la prioridad del ticket seleccionado
-        const ticketDescription = $(this).data('description');
-        const createdBy = $(this).data('created-by');
-        const priority = $(this).data('priority');
-        const ticketId = $(this).data('ticket-id'); // Obtener el ID del ticket
-
-        // Actualizar el contenido de la ventana emergente con la descripción, el nombre del creador y la prioridad del ticket
-        $('#ticketDescription').text('Descripción del Ticket:\n\n' + ticketDescription);
-        $('#creadoPor').text('Creado por: ' + createdBy);
-        $('#prioridad').text('Prioridad: ' + priority); // Agregar prioridad del ticket
-
-        // Actualizar el atributo data-ticket-id de los botones de escalado con el ID del ticket seleccionado
-        $('#escalateLow').attr('data-ticket-id', ticketId);
-        $('#escalateMedium').attr('data-ticket-id', ticketId);
-        $('#escalateHigh').attr('data-ticket-id', ticketId);
-
-        // Mostrar la ventana emergente
-        $('#descripcionTicketModal').modal('show');
-    });
-});
-
-$(document).ready(function() {
-    $('#descripcionTicketModal').on('click', '#escalateLow, #escalateMedium, #escalateHigh', function() {
-        const ticketID = $(this).data('ticket-id'); // Obtener el ID del ticket desde el botón clicado
-        const nuevoPrioridadID = $(this).data('prioridad'); // Obtener la nueva prioridad desde el botón clicado
-        const motivo = "El ticket requiere atención de un nivel superior.";
-        const agenteResponsableID = 3; // ID del agente que realiza el escalamiento (puedes obtenerlo según tu lógica)
-
-        console.log({ ticketID, nuevoPrioridadID, motivo, agenteResponsableID }); // Agregar un log para verificar los datos
-
-        $.ajax({
-            url: 'http://localhost:3000/tickets/escalar-ticket',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ ticketID, nuevoPrioridadID, motivo, agenteResponsableID }),
-            success: function(response) {
-                alert('Ticket escalado correctamente');
-                $('#descripcionTicketModal').modal('hide');
-                window.location.reload();
-            },
-            error: function(xhr, status, error) {
-                alert('Error al escalar el ticket');
-            }
-        });
-    });
-});
-
-
-    </script> 
-
-    <script>
-        $(document).ready(function() {
-       // Obtener el nombre de usuario y el ID del usuario del localStorage
-       const nombreUsuario = localStorage.getItem('nombre');
-       const usuarioCreadorId = localStorage.getItem('usuario_id');
-       
-       // Mostrar el nombre de usuario
-       console.log("Nombre de usuario recuperado:", nombreUsuario); 
-       $('#nombreUsuario').text(nombreUsuario);
-
-       // Manejar el evento de envío del formulario para crear un nuevo ticket
-       $('#ticketForm').on('submit', function(event) {
-           event.preventDefault();
-
-
-           
-           // Obtener los valores de los campos del formulario
-           const titulo = $('#titulo').val();
-           const descripcion = $('#descripcion').val();
-           const categoriaId = $('#categoria').val();
-
-           
-
-           // Enviar los datos del formulario al controlador
-           $.ajax({
-               url: 'http://localhost:3000/crear-ticket',
-               method: 'POST',
-               contentType: 'application/json',
-               data: JSON.stringify({ titulo, descripcion, categoriaId, usuarioID: usuarioCreadorId }), // Agregar usuarioID
-               success: function(response) {
-                   // Manejar la respuesta del servidor
-                   alert('Ticket creado correctamente');
-                   window.location.reload();
-               },
-               error: function(xhr, status, error) {
-                   // Manejar errores
-                   alert('Error al crear el ticket');
-               }
-           });
-       });
-   });
-   </script>
-
-    
-</script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <!-- Custom JS -->
+    <script src="Administrador.js"></script>
 </body>
 </html>

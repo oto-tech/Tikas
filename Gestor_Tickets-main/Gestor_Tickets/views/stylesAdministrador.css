@@ -1,0 +1,83 @@
+/* General Styles */
+body {
+    background-color: #f0f0f0;
+}
+
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #343a40;
+    color: #fff;
+}
+
+.sidebar .nav-link {
+    color: #fff;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #495057;
+}
+
+.content {
+    margin-left: 200px;
+}
+
+.card-body {
+    background-color: #fff;
+}
+
+.stats-card {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.stats-card .card-body {
+    padding: 1.5rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.lista-tickets-container {
+    width: 700px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Ticket Item Styles */
+.ticket-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+/* Custom Button Styles */
+.btn-custom-green {
+    background-color: #8BC34A;
+    color: white;
+    border: none;
+}
+
+.btn-custom-green:hover {
+    background-color: #7CB342;
+}
+
+.btn-custom-orange {
+    background-color: #FFB74D;
+    color: white;
+    border: none;
+}
+
+.btn-custom-orange:hover {
+    background-color: #FFA726;
+}
+
+.btn-custom-red {
+    background-color: #E57373;
+    color: white;
+    border: none;
+}
+
+.btn-custom-red:hover {
+    background-color: #EF5350;
+}

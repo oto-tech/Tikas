@@ -1,0 +1,39 @@
+body {
+    background-color: #f0f0f0;
+}
+
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #343a40;
+    color: #fff;
+}
+
+.sidebar .nav-link {
+    color: #fff;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #495057;
+}
+
+.card-body {
+    background-color: #fff;
+}
+
+.content {
+    margin-left: 200px;
+}
+
+.stats-card {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.stats-card .card-body {
+    padding: 1.5rem;
+}
+
+.ticket-details {
+    display: none;
+}
