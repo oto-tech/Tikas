@@ -1,0 +1,33 @@
+body {
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+}
+
+.login-container .btn-primary {
+    width: 100%;
+}
+
+.login-container .form-group {
+    margin-bottom: 20px;
+}
+
+#message {
+    color: #dc3545;
+}

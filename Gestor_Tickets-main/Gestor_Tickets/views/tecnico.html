@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Técnico - Gestión de Tickets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f0f0f0;
         }
         .sidebar {
-            width: 200px; /* Ajusta el ancho del panel lateral */
+            width: 200px;
             height: 100vh;
             background-color: #343a40;
             color: #fff;
@@ -26,7 +25,7 @@
             background-color: #fff;
         }
         .content {
-            margin-left: 200px; /* Ajusta el margen izquierdo del contenido principal */
+            margin-left: 200px;
         }
         .stats-card {
             background-color: #007bff;
@@ -34,6 +33,9 @@
         }
         .stats-card .card-body {
             padding: 1.5rem;
+        }
+        .ticket-details {
+            display: none;
         }
     </style>
 </head>
@@ -62,8 +64,8 @@
             </ul>
             <hr>
             <div class="text-center">
-                <span>Bienvenido/a [Nombre de Técnico]</span><br>
-                <a href="/index.html" class="text-white">Salir</a>
+                <span>Bienvenido/a <span id="nombreUsuario"></span></span><br>
+                <a href="/Users/crist/OneDrive/Escritorio/Gestor_Tickets-main/Gestor_Tickets-main/Gestor_Tickets/index.html" class="text-white">Salir</a>
             </div>
         </div>
 
@@ -80,10 +82,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="mb-4">Lista de Tickets</h2>
-                                <ul class="list-group">
-                                    <li class="list-group-item">Ticket 1</li>
-                                    <li class="list-group-item">Ticket 2</li>
-                                    <li class="list-group-item">Ticket 3</li>
+                                <ul id="ticketList" class="list-group">
+                                    <!-- Los tickets se cargarán aquí mediante JavaScript -->
                                 </ul>
                             </div>
                         </div>
@@ -91,50 +91,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card stats-card">
+                        <div id="ticketDetails" class="card ticket-details">
                             <div class="card-body">
-                                <h2 class="mb-4">Estadísticas</h2>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h4>Total Tickets</h4>
-                                        <p>123</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h4>Tickets Resueltos</h4>
-                                        <p>100</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h4>Tickets Pendientes</h4>
-                                        <p>23</p>
-                                    </div>
-                                </div>
+                                <h2 class="mb-4">Detalles del Ticket</h2>
+                                <p id="ticketDescription"></p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Crear Ticket Modal -->
-        <div class="modal fade" id="crearTicketModal" tabindex="-1" aria-labelledby="crearTicketModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="crearTicketModalLabel">Crear Nuevo Ticket</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="titulo" class="form-label">Título del Ticket</label>
-                                <input type="text" class="form-control" id="titulo" placeholder="Ingrese el título">
-                            </div>
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción del Ticket</label>
-                                <textarea class="form-control" id="descripcion" rows="3" placeholder="Ingrese la descripción"></textarea>
-                            </div>
-                            <button type="button" id="btnCrearTicket" class="btn btn-primary">Crear Ticket</button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -142,8 +104,43 @@
     </div>
 
     <!-- Scripts de Bootstrap y otros -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-    <script src="/controllers/tecnico.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const usuarioId = localStorage.getItem('usuario_id');
+            const nombreUsuario = localStorage.getItem('nombreUsuario');
+            $('#nombreUsuario').text(nombreUsuario);
+
+            function cargarTickets() {
+                $.ajax({
+                    url: `http://localhost:3000/tickets?tecnico_id=${usuarioId}`, // Endpoint para obtener los tickets del técnico
+                    method: 'GET',
+                    success: function(response) {
+                        const ticketList = $('#ticketList');
+                        ticketList.empty();
+                        response.tickets.forEach(ticket => {
+                            ticketList.append(`
+                                <li class="list-group-item ticket-item" data-description="${ticket.descripcion}">
+                                    ${ticket.asunto}
+                                </li>
+                            `);
+                        });
+                    },
+                    error: function(xhr) {
+                        console.error('Error al cargar los tickets:', xhr);
+                    }
+                });
+            }
+
+            $('#ticketList').on('click', '.ticket-item', function() {
+                const ticketDescription = $(this).data('description');
+                $('#ticketDescription').text(ticketDescription);
+                $('#ticketDetails').show();
+            });
+
+            cargarTickets();
+        });
+    </script>
 </body>
 </html>

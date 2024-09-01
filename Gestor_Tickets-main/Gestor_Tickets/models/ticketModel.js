@@ -50,6 +50,8 @@ async function obtenerTicketsUsuario(usuarioID) {
     }
 }
 
+
+
 async function obtenerTodosLosTickets() {
     let connection;
 
@@ -69,8 +71,6 @@ async function obtenerTodosLosTickets() {
         }
     }
 }
-
-
 
 async function escalarTicket(ticketID, nuevoPrioridadID, motivo, agenteResponsableID) {
     let connection;
@@ -99,4 +99,6 @@ module.exports = {
     obtenerTodosLosTickets,
     escalarTicket
 };
+
+
 

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ticketModel = require('../models/ticketModel');
 
+
 router.post('/', async (req, res) => {
     const { titulo, descripcion, categoriaId, usuarioID } = req.body; // Obtener el ID del usuario del cuerpo de la solicitud
 
@@ -22,7 +23,6 @@ router.post('/', async (req, res) => {
 // Ruta para obtener los tickets del usuario
 router.get('/tickets', async (req, res) => {
     const { usuarioID } = req.query;
-
 
     try {
         const tickets = await ticketModel.obtenerTicketsUsuario(usuarioID);
