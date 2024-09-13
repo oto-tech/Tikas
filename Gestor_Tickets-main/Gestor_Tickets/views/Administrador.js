@@ -88,9 +88,7 @@ $(document).ready(function() {
         const apellido = $('#apellido').val();
         const email = $('#email').val();
         const contrasenia = $('#contrasenia').val();
-        const rol_id = parseInt($('#rol_id').val(), 10);
-    
-
+        const rol_id = $('#rol_id').val();
     
         $.ajax({
             url: 'http://localhost:3000/usuarios',
@@ -169,4 +167,5 @@ $(document).ready(function() {
             }
         });
     }
+
 });

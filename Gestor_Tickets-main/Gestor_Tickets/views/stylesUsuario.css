@@ -1,4 +1,72 @@
+/* Navbar styles */
+.navbar {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.navbar .navbar-brand {
+    color: #fff;
+}
+
+.navbar .btn-outline-danger {
+    color: #fff;
+    border-color: #dc3545;
+}
+
+.navbar .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Main container styles */
+.container {
+    margin-top: 20px;
+}
+
+.create-ticket-btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.create-ticket-btn:hover {
+    background-color: #0056b3;
+}
+
 .table-hover tbody tr:hover {
-    background-color: #f5f5f5;
-    cursor: pointer;
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Modal styles */
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.btn-close {
+    background-color: #dc3545;
+}
+
+.btn-close:hover {
+    background-color: #c82333;
+}
+
+.list-group-item {
+    border: none;
 }

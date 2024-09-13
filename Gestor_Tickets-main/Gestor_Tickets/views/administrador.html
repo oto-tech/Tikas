@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="stylesAdministrador.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar d-flex flex-column p-3">
-            <h2 class="text-center">Panel</h2>
+            <h2 class="text-center">Panel Admin</h2>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
@@ -29,13 +30,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link asignar-ticket-btn" data-bs-toggle="modal" data-bs-target="#asignarTicketModal">
+                    <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#asignarTicketModal">
                         <i class="fas fa-user-plus"></i> Asignar Ticket
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-check-circle"></i> Resolver Ticket
                     </a>
                 </li>
                 <li>
@@ -50,14 +46,14 @@
                 </li>
                 <li>
                     <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#crearUsuarioModal">
-                        <i class="fas fa-plus-circle"></i> Crear Usuario
+                        <i class="fas fa-user-plus"></i> Crear Usuario
                     </a>
                 </li>
             </ul>
             <hr>
             <div class="text-center">
                 <span>Bienvenido/a <span id="nombreUsuario"></span></span><br>
-                <a href="index.html" class="text-white">Salir</a>
+                <a href="/Users/crist/OneDrive/Escritorio/Gestor_Tickets-main/Gestor_Tickets-main/Gestor_Tickets/index.html" class="text-white">Salir</a>
             </div>
         </div>
 
@@ -66,7 +62,7 @@
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-md-12">
-                        <h2>Gestión de Tickets</h2>
+                        <h2 class="page-title">Gestión de Tickets</h2>
                     </div>
                 </div>
                 <h2 class="mb-3">Lista de Tickets</h2>
@@ -157,8 +153,8 @@
                                         <input type="email" class="form-control" id="email" placeholder="Ingrese el correo electrónico" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="contrasenia" class="form-label">contrasenia</label>
-                                        <input type="text" class="form-control" id="contrasenia" placeholder="Ingrese la contrasenia" required>
+                                        <label for="contrasenia" class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control" id="contrasenia" placeholder="Ingrese la contraseña" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="rol_id" class="form-label">Rol</label>
@@ -168,8 +164,6 @@
                                             <option value="3">Usuario</option>
                                         </select>
                                     </div>
-                                    
-
                                     <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
                                 </form>
                             </div>
@@ -201,7 +195,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

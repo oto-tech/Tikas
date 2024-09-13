@@ -6,6 +6,7 @@
     <title>Técnico - Gestión de Tickets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesTecnico.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="d-flex">
@@ -38,31 +39,35 @@
         </div>
 
         <!-- Main Content -->
-        <div class="content p-4">
+        <div class="content flex-grow-1 p-4">
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-md-12">
-                        <h2>Gestión de Tickets</h2>
+                        <h2 class="page-title">Gestión de Tickets</h2>
                     </div>
                 </div>
-                <div class="row mb-4">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h2 class="mb-4">Lista de Tickets</h2>
-                                <ul id="ticketList" class="list-group">
-                                    <!-- Los tickets se cargarán aquí mediante JavaScript -->
-                                </ul>
+                <h2 class="mb-3">Lista de Tickets</h2>
+                <div class="table-responsive lista-tickets-container">
+                    <ul class="list-group list-group-flush" id="listaTickets">
+                        <!-- Contenido de la lista de tickets -->
+                    </ul>
+                </div>
+
+                <!-- Modal Descripción del Ticket -->
+                <div class="modal fade" id="descripcionTicketModal" tabindex="-1" aria-labelledby="descripcionTicketModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="descripcionTicketModalLabel">Descripción del Ticket</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="ticketDetails" class="card ticket-details">
-                            <div class="card-body">
-                                <h2 class="mb-4">Detalles del Ticket</h2>
+                            <div class="modal-body">
                                 <p id="ticketDescription"></p>
+                                <p id="creadoPor"></p>
+                                <p id="prioridad"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>

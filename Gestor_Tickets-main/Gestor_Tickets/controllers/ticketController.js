@@ -23,11 +23,11 @@ router.post('/', async (req, res) => {
 
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
-    const { nombre, apellido, email, contrasenia, rol_id, usuarioID } = req.body;
+    const { nombre, apellido, email, contrasenia, rol_id} = req.body;
 
     try {
-        const creado = await ticketModel.nuevoUsuario(nombre, apellido, email, contrasenia, rol_id, usuarioID);
-        if (creado) {
+        const creados = await ticketModel.nuevoUsuario(nombre, apellido, email, contrasenia, rol_id);
+        if (creados) {
             res.status(201).send('Usuario creado correctamente');
         } else {
             res.status(500).send('Error al crear el usuario');

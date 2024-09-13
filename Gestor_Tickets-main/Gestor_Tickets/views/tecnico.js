@@ -3,32 +3,53 @@ $(document).ready(function() {
     const nombreUsuario = localStorage.getItem('nombreUsuario');
     $('#nombreUsuario').text(nombreUsuario);
 
-    function cargarTickets() {
+   // Cargar lista de tickets al cargar la página
+   cargarListaTickets();
+
+   // Manejar clic en un ticket para mostrar detalles
+   $('#listaTickets').on('click', '.ticket-item', function() {
+       const ticketDescription = $(this).data('description');
+       const createdBy = $(this).data('created-by');
+       const priority = $(this).data('priority');
+       const ticketId = $(this).data('ticket-id');
+
+       $('#ticketDescription').text(`Descripción del Ticket:\n\n${ticketDescription}`);
+       $('#creadoPor').text(`Creado por: ${createdBy}`);
+       $('#prioridad').text(`Prioridad: ${priority}`);
+
+       // Actualizar data-ticket-id en botones de escalado
+       $('#escalateLow, #escalateMedium, #escalateHigh').attr('data-ticket-id', ticketId);
+
+       $('#descripcionTicketModal').modal('show');
+   });
+
+    // Función para cargar la lista de tickets
+    function cargarListaTickets() {
         $.ajax({
-            url: `http://localhost:3000/tickets?tecnico_id=${usuarioId}`, // Endpoint para obtener los tickets del técnico
+            url: 'http://localhost:3000/tickets/todos-los-tickets',
             method: 'GET',
             success: function(response) {
-                const ticketList = $('#ticketList');
-                ticketList.empty();
-                response.tickets.forEach(ticket => {
-                    ticketList.append(`
-                        <li class="list-group-item ticket-item" data-description="${ticket.descripcion}">
+                const tickets = response.tickets;
+                const listaTickets = $('#listaTickets');
+                listaTickets.empty();
+
+                tickets.forEach(ticket => {
+                    listaTickets.append(`
+                        <li class="list-group-item ticket-item" 
+                            data-description="${ticket.descripcion}" 
+                            data-created-by="${ticket.nombre_usuario}" 
+                            data-priority="${ticket.prioridad_id}" 
+                            data-ticket-id="${ticket.ticket_id}">
                             ${ticket.asunto}
                         </li>
                     `);
                 });
             },
-            error: function(xhr) {
-                console.error('Error al cargar los tickets:', xhr);
+            error: function() {
+                console.error('Error al obtener los tickets');
             }
         });
     }
 
-    $('#ticketList').on('click', '.ticket-item', function() {
-        const ticketDescription = $(this).data('description');
-        $('#ticketDescription').text(ticketDescription);
-        $('#ticketDetails').show();
-    });
-
-    cargarTickets();
+   
 });

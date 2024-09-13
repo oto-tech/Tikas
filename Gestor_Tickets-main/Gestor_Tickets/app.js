@@ -10,7 +10,7 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));  // Sirve archivos estáticos desde 'public'
+app.use(express.static(path.join(__dirname, 'Gestor_Tickets')));  // Sirve archivos estáticos desde 'public'
 
 // Rutas
 app.use('/crear-ticket', ticketController);

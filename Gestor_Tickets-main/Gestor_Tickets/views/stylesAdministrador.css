@@ -1,83 +1,150 @@
-/* General Styles */
+/* General body styles */
 body {
-    background-color: #f0f0f0;
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Sidebar styles */
 .sidebar {
-    width: 200px;
-    height: 100vh;
     background-color: #343a40;
     color: #fff;
+    min-width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar h2 {
+    color: #fff;
+    font-size: 1.5rem;
 }
 
 .sidebar .nav-link {
-    color: #fff;
+    color: #ced4da;
+    padding: 10px;
+    font-size: 1rem;
 }
 
 .sidebar .nav-link:hover {
     background-color: #495057;
+    color: #fff;
 }
 
+.sidebar .nav-link i {
+    margin-right: 8px;
+}
+
+.sidebar hr {
+    border-color: #495057;
+}
+
+.sidebar .text-center {
+    margin-top: auto;
+}
+
+.sidebar .text-center a {
+    color: #dc3545;
+    text-decoration: none;
+}
+
+.sidebar .text-center a:hover {
+    text-decoration: underline;
+}
+
+/* Main content styles */
 .content {
-    margin-left: 200px;
+    margin-left: 250px;
+    padding: 20px;
 }
 
-.card-body {
-    background-color: #fff;
+.page-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #212529;
 }
 
-.stats-card {
+/* Modal styles */
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-header {
     background-color: #007bff;
     color: #fff;
 }
 
-.stats-card .card-body {
-    padding: 1.5rem;
+.modal-header .btn-close {
+    background-color: #dc3545;
 }
 
-.table-responsive {
-    overflow-x: auto;
+.modal-header .btn-close:hover {
+    background-color: #c82333;
 }
 
-.lista-tickets-container {
-    width: 700px;
-    max-height: 500px;
-    overflow-y: auto;
+.modal-body {
+    padding: 20px;
 }
 
-/* Ticket Item Styles */
-.ticket-item:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+.modal-footer {
+    border-top: none;
+    padding: 15px;
 }
 
-/* Custom Button Styles */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
 .btn-custom-green {
-    background-color: #8BC34A;
-    color: white;
+    background-color: #28a745;
     border: none;
 }
 
 .btn-custom-green:hover {
-    background-color: #7CB342;
+    background-color: #218838;
 }
 
 .btn-custom-orange {
-    background-color: #FFB74D;
-    color: white;
+    background-color: #fd7e14;
     border: none;
 }
 
 .btn-custom-orange:hover {
-    background-color: #FFA726;
+    background-color: #e06d06;
 }
 
 .btn-custom-red {
-    background-color: #E57373;
-    color: white;
+    background-color: #dc3545;
     border: none;
 }
 
 .btn-custom-red:hover {
-    background-color: #EF5350;
+    background-color: #c82333;
+}
+
+/* Table styles */
+.table-responsive {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.lista-tickets-container {
+    max-height: 500px;
+    overflow-y: auto;
 }

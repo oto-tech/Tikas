@@ -32,7 +32,7 @@ async function crearTicket(asunto, descripcion, categoriaId, usuarioCreadorId) {
 }
 
 // Función para crear un nuevo usuario en la base de datos
-async function nuevoUsuario(nombre, apellido, email, contrasenia, rol_id) {
+async function nuevousuario(nombre, apellido, email, contrasenia, rol_id) {
     let connection;
 
     try {
@@ -119,7 +119,7 @@ async function escalarTicket(ticketID, nuevoPrioridadID, motivo, agenteResponsab
 
 module.exports = {
     crearTicket,
-    nuevoUsuario,
+    nuevousuario,
     obtenerTicketsUsuario,
     obtenerTodosLosTickets,
     escalarTicket

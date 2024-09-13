@@ -1,39 +1,113 @@
+/* General body styles */
 body {
-    background-color: #f0f0f0;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
 }
 
+/* Sidebar styles */
 .sidebar {
-    width: 200px;
-    height: 100vh;
     background-color: #343a40;
     color: #fff;
+    min-width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar h2 {
+    color: #fff;
+    font-size: 1.5rem;
 }
 
 .sidebar .nav-link {
-    color: #fff;
+    color: #ced4da;
+    padding: 10px;
 }
 
 .sidebar .nav-link:hover {
     background-color: #495057;
+    color: #fff;
 }
 
-.card-body {
-    background-color: #fff;
+.sidebar .nav-link i {
+    margin-right: 8px;
 }
 
+.sidebar hr {
+    border-color: #495057;
+}
+
+.sidebar .text-center {
+    margin-top: auto;
+}
+
+.sidebar .text-center a {
+    color: #dc3545;
+    text-decoration: none;
+}
+
+.sidebar .text-center a:hover {
+    text-decoration: underline;
+}
+
+/* Main content styles */
 .content {
-    margin-left: 200px;
+    margin-left: 250px;
+    padding: 20px;
 }
 
-.stats-card {
+.page-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #212529;
+}
+
+/* Table styles */
+.table-responsive {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.lista-tickets-container {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Modal styles */
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-header {
     background-color: #007bff;
     color: #fff;
 }
 
-.stats-card .card-body {
-    padding: 1.5rem;
+.modal-header .btn-close {
+    background-color: #dc3545;
 }
 
-.ticket-details {
-    display: none;
+.modal-header .btn-close:hover {
+    background-color: #c82333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 15px;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
 }
