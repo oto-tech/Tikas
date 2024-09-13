@@ -50,7 +50,7 @@
                 </li>
                 <li>
                     <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#crearUsuarioModal">
-                        <i class="fas fa-user-plus"></i> Crear Usuario
+                        <i class="fas fa-plus-circle"></i> Crear Usuario
                     </a>
                 </li>
             </ul>
@@ -145,21 +145,31 @@
                             <div class="modal-body">
                                 <form id="usuarioForm">
                                     <div class="mb-3">
-                                        <label for="nombreNuevoUsuario" class="form-label">Nombre de Usuario</label>
-                                        <input type="text" class="form-control" id="nombreNuevoUsuario" placeholder="Ingrese el nombre de usuario" required>
+                                        <label for="nombre" class="form-label">Nombre del Usuario</label>
+                                        <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del usuario" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="emailNuevoUsuario" class="form-label">Correo Electrónico</label>
-                                        <input type="email" class="form-control" id="emailNuevoUsuario" placeholder="Ingrese el correo electrónico" required>
+                                        <label for="apellido" class="form-label">Apellido del Usuario</label>
+                                        <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido del usuario" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="rolNuevoUsuario" class="form-label">Rol</label>
-                                        <select class="form-select" id="rolNuevoUsuario" required>
+                                        <label for="email" class="form-label">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="email" placeholder="Ingrese el correo electrónico" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contrasenia" class="form-label">contrasenia</label>
+                                        <input type="text" class="form-control" id="contrasenia" placeholder="Ingrese la contrasenia" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="rol_id" class="form-label">Rol</label>
+                                        <select class="form-select" id="rol_id" required>
                                             <option value="1">Administrador</option>
                                             <option value="2">Técnico</option>
                                             <option value="3">Usuario</option>
                                         </select>
                                     </div>
+                                    
+
                                     <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
                                 </form>
                             </div>

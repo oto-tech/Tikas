@@ -2,12 +2,13 @@
 const mysql = require('mysql2/promise');
 
 const config = {
-    host: 'localhost',
-    user: 'USUARIO_NE',
-    password: 'Manager1',
+    host: 'database-1.cd24gaw6es8e.us-east-2.rds.amazonaws.com',
+    user: 'admin',
+    password: 'CJJe2003--',
     database: 'GestorTickets'
     
 };
+
 
 // Función para crear un nuevo ticket en la base de datos
 async function crearTicket(asunto, descripcion, categoriaId, usuarioCreadorId) {
@@ -29,6 +30,29 @@ async function crearTicket(asunto, descripcion, categoriaId, usuarioCreadorId) {
         }
     }
 }
+
+// Función para crear un nuevo usuario en la base de datos
+async function nuevoUsuario(nombre, apellido, email, contrasenia, rol_id) {
+    let connection;
+
+    try {
+        connection = await mysql.createConnection(config);
+
+        await connection.execute(
+            'INSERT INTO Usuarios (nombre, apellido, email, contrasenia, rol_id) VALUES (?, ?, ?, ?, ?)',
+            [nombre, apellido, email, contrasenia, rol_id]
+        );
+        return true;
+    } catch (error) {
+        console.error('Error al crear usuario:', error.message);
+        return false;
+    } finally {
+        if (connection) {
+            await connection.end();
+        }
+    }
+}
+
 
 async function obtenerTicketsUsuario(usuarioID) {
     let connection;
@@ -95,6 +119,7 @@ async function escalarTicket(ticketID, nuevoPrioridadID, motivo, agenteResponsab
 
 module.exports = {
     crearTicket,
+    nuevoUsuario,
     obtenerTicketsUsuario,
     obtenerTodosLosTickets,
     escalarTicket

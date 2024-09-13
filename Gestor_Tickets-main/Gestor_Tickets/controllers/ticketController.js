@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ticketModel = require('../models/ticketModel');
 
-
+//crear ticket 
 router.post('/', async (req, res) => {
     const { titulo, descripcion, categoriaId, usuarioID } = req.body; // Obtener el ID del usuario del cuerpo de la solicitud
 
@@ -19,6 +19,26 @@ router.post('/', async (req, res) => {
         res.status(500).send('Error al crear el ticket');
     }
 });
+
+
+// Ruta para crear un nuevo usuario
+router.post('/', async (req, res) => {
+    const { nombre, apellido, email, contrasenia, rol_id, usuarioID } = req.body;
+
+    try {
+        const creado = await ticketModel.nuevoUsuario(nombre, apellido, email, contrasenia, rol_id, usuarioID);
+        if (creado) {
+            res.status(201).send('Usuario creado correctamente');
+        } else {
+            res.status(500).send('Error al crear el usuario');
+        }
+    } catch (error) {
+        console.error('Error al crear usuario:', error.message);
+        res.status(500).send('Error al crear el usuario');
+    }
+});
+
+
 
 // Ruta para obtener los tickets del usuario
 router.get('/tickets', async (req, res) => {

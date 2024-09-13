@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const conectarDB = require('./conexion'); // Asegúrate de la ruta correcta
+const conectarDB = require('./conexion'); // Asegúrate de que la ruta sea correcta
 const ticketController = require('./controllers/ticketController');
 
 const app = express();
@@ -10,10 +10,11 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));  // Sirve archivos estáticos desde 'public'
 
 // Rutas
 app.use('/crear-ticket', ticketController);
+app.use('/usuarios', ticketController);
 app.use('/tickets', ticketController);
 app.use('/todos-los-tickets', ticketController);
 app.use('/escalar-ticket', ticketController);
@@ -42,6 +43,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });

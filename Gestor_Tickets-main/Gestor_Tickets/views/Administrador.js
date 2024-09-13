@@ -79,32 +79,42 @@ $(document).ready(function() {
         });
     });
 
-    // Manejar creación de nuevo usuario
+
+
     $('#usuarioForm').on('submit', function(event) {
         event.preventDefault();
+    
+        const nombre = $('#nombre').val();
+        const apellido = $('#apellido').val();
+        const email = $('#email').val();
+        const contrasenia = $('#contrasenia').val();
+        const rol_id = parseInt($('#rol_id').val(), 10);
+    
 
-        const nombre = $('#nombreNuevoUsuario').val();
-        const email = $('#emailNuevoUsuario').val();
-        const rol_id = $('#rolNuevoUsuario').val();
-
+    
         $.ajax({
-            url: 'http://localhost:3000/usuarios/crear',
+            url: 'http://localhost:3000/usuarios',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
                 nombre,
+                apellido,
                 email,
+                contrasenia,
                 rol_id
             }),
             success: function() {
                 alert('Usuario creado correctamente');
                 $('#crearUsuarioModal').modal('hide');
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                console.error('Error al crear el usuario:', error);
                 alert('Error al crear el usuario');
             }
         });
     });
+    
+    
 
     // Manejar asignación de ticket
     $('#asignarTicketForm').on('submit', function(event) {
