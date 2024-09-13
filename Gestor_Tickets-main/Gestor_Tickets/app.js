@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const conectarDB = require('./conexion'); // Asegúrate de que la ruta sea correcta
 const ticketController = require('./controllers/ticketController');
+const usuarioController = require('./controllers/usuarioController');
 
 const app = express();
 const PORT = 3000;
@@ -14,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'Gestor_Tickets')));  // Sirve archi
 
 // Rutas
 app.use('/crear-ticket', ticketController);
-app.use('/usuarios', ticketController);
+app.use('/usuarios', usuarioController); // Ruta para usuarios
 app.use('/tickets', ticketController);
 app.use('/todos-los-tickets', ticketController);
 app.use('/escalar-ticket', ticketController);

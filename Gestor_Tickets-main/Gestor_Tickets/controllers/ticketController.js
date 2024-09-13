@@ -2,12 +2,15 @@ const express = require('express');
 const router = express.Router();
 const ticketModel = require('../models/ticketModel');
 
-//crear ticket 
-router.post('/', async (req, res) => {
-    const { titulo, descripcion, categoriaId, usuarioID } = req.body; // Obtener el ID del usuario del cuerpo de la solicitud
+// Ruta para crear un nuevo ticket
+router.post('/tickets', async (req, res) => {
+    const { titulo, descripcion, categoriaId, usuarioID } = req.body;
+
+    if (!titulo || !descripcion || !categoriaId || !usuarioID) {
+        return res.status(400).send('Faltan datos necesarios para crear el ticket');
+    }
 
     try {
-        // Crear el ticket utilizando el ID del usuario logueado
         const creado = await ticketModel.crearTicket(titulo, descripcion, categoriaId, usuarioID);
         if (creado) {
             res.status(201).send('Ticket creado correctamente');
@@ -20,29 +23,13 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-// Ruta para crear un nuevo usuario
-router.post('/', async (req, res) => {
-    const { nombre, apellido, email, contrasenia, rol_id} = req.body;
-
-    try {
-        const creados = await ticketModel.nuevoUsuario(nombre, apellido, email, contrasenia, rol_id);
-        if (creados) {
-            res.status(201).send('Usuario creado correctamente');
-        } else {
-            res.status(500).send('Error al crear el usuario');
-        }
-    } catch (error) {
-        console.error('Error al crear usuario:', error.message);
-        res.status(500).send('Error al crear el usuario');
-    }
-});
-
-
-
 // Ruta para obtener los tickets del usuario
 router.get('/tickets', async (req, res) => {
     const { usuarioID } = req.query;
+
+    if (!usuarioID) {
+        return res.status(400).send('Falta el ID del usuario');
+    }
 
     try {
         const tickets = await ticketModel.obtenerTicketsUsuario(usuarioID);
@@ -68,8 +55,11 @@ router.get('/todos-los-tickets', async (req, res) => {
 router.post('/escalar-ticket', async (req, res) => {
     const { ticketID, nuevoPrioridadID, motivo, agenteResponsableID } = req.body;
 
+    if (!ticketID || !nuevoPrioridadID || !motivo || !agenteResponsableID) {
+        return res.status(400).send('Faltan datos necesarios para escalar el ticket');
+    }
+
     try {
-        // Escalar el ticket utilizando los parámetros proporcionados
         const escalado = await ticketModel.escalarTicket(ticketID, nuevoPrioridadID, motivo, agenteResponsableID);
         if (escalado) {
             res.status(200).send('Ticket escalado correctamente');
@@ -81,6 +71,5 @@ router.post('/escalar-ticket', async (req, res) => {
         res.status(500).send('Error al escalar el ticket');
     }
 });
-
 
 module.exports = router;

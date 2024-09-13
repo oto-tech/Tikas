@@ -22,32 +22,33 @@ $(document).ready(function() {
         $('#descripcionTicketModal').modal('show');
     });
 
-    // Manejar escalamiento de ticket
-    $('#descripcionTicketModal').on('click', '.btn', function() {
-        const ticketID = $(this).data('ticket-id');
-        const nuevoPrioridadID = $(this).data('prioridad');
-        const agenteResponsableID = localStorage.getItem('usuario_id') || 1; // ID del administrador
+   
+   // Manejar escalamiento de ticket
+$('#descripcionTicketModal').on('click', '.btn', function() {
+    const ticketID = $(this).data('ticket-id');
+    const nuevoPrioridadID = $(this).data('prioridad');
+    const agenteResponsableID = localStorage.getItem('usuario_id') || 1; // ID del administrador
 
-        $.ajax({
-            url: 'http://localhost:3000/tickets/escalar-ticket',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                ticketID,
-                nuevoPrioridadID,
-                motivo: "El ticket requiere atención de un nivel superior.",
-                agenteResponsableID
-            }),
-            success: function() {
-                alert('Ticket escalado correctamente');
-                $('#descripcionTicketModal').modal('hide');
-                cargarListaTickets();
-            },
-            error: function() {
-                alert('Error al escalar el ticket');
-            }
-        });
+    $.ajax({
+        url: 'http://localhost:3000/tickets/escalar-ticket',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            ticketID: ticketID,
+            nuevoPrioridadID: nuevoPrioridadID,
+            motivo: "El ticket requiere atención de un nivel superior.",
+            agenteResponsableID: agenteResponsableID
+        }),
+        success: function() {
+            alert('Ticket escalado correctamente');
+            $('#descripcionTicketModal').modal('hide');
+            cargarListaTickets();
+        },
+        error: function() {
+            alert('Error al escalar el ticket');
+        }
     });
+});
 
     // Manejar creación de nuevo ticket
     $('#ticketForm').on('submit', function(event) {
@@ -79,8 +80,7 @@ $(document).ready(function() {
         });
     });
 
-
-
+//manejar creacion nuevo usuario 
     $('#usuarioForm').on('submit', function(event) {
         event.preventDefault();
     
@@ -95,39 +95,39 @@ $(document).ready(function() {
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                nombre,
-                apellido,
-                email,
-                contrasenia,
-                rol_id
+                nombre: nombre,
+                apellido: apellido,
+                email: email,
+                contrasenia: contrasenia,
+                rol_id: rol_id
             }),
             success: function() {
                 alert('Usuario creado correctamente');
                 $('#crearUsuarioModal').modal('hide');
             },
             error: function(xhr, status, error) {
-                console.error('Error al crear el usuario:', error);
-                alert('Error al crear el usuario');
+                console.error('Error al crear el usuarios:', error);
+                alert('Error al crear el usuarioss');
             }
         });
     });
     
-    
+
 
     // Manejar asignación de ticket
     $('#asignarTicketForm').on('submit', function(event) {
         event.preventDefault();
-
+    
         const ticketID = $('#ticketIdAsignar').val();
         const tecnicoID = $('#tecnicoIdAsignar').val();
-
+    
         $.ajax({
             url: 'http://localhost:3000/tickets/asignar',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                ticketID,
-                tecnicoID
+                ticketID: ticketID,
+                tecnicoID: tecnicoID
             }),
             success: function() {
                 alert('Ticket asignado correctamente');
