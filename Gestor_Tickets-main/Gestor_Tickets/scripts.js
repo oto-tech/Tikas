@@ -15,13 +15,13 @@ $(document).ready(function() {
                 localStorage.setItem('nombreUsuario', nombre);
                 switch (rol_id) {
                     case 1: // Administrador
-                        window.location.href = '/Users/crist/OneDrive/Escritorio/Gestor_Tickets-main/Gestor_Tickets-main/Gestor_Tickets/views/administrador.html';
+                        window.location.href = 'views/administrador.html';
                         break;
                     case 2: // Técnico
-                        window.location.href = '/Users/crist/OneDrive/Escritorio/Gestor_Tickets-main/Gestor_Tickets-main/Gestor_Tickets/views/tecnico.html';
+                        window.location.href = 'views/tecnico.html';
                         break;
                     case 3: // Usuario normal
-                        window.location.href = '/Users/crist/OneDrive/Escritorio/Gestor_Tickets-main/Gestor_Tickets-main/Gestor_Tickets/views/usuario.html';
+                        window.location.href = 'views/usuario.html';
                         break;
                     default:
                         console.error('Rol desconocido');
