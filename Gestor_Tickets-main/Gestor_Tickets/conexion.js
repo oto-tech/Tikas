@@ -2,10 +2,10 @@ const mysql = require('mysql2/promise');
 
 // Configuración de la conexión
 const config = {
-    host: 'database-1.cd24gaw6es8e.us-east-2.rds.amazonaws.com',
-    user: 'admin',
-    password: 'CJJe2003--',
-    database: 'GestorTickets'
+    host: 'localhost',
+    user: 'USUARIO_NE',
+    password: 'Manager1',
+    database: 'GestorTickets2'
     
 };
 

@@ -3,7 +3,7 @@ const router = express.Router();
 const ticketModel = require('../models/ticketModel');
 
 // Ruta para crear un nuevo ticket
-router.post('/tickets', async (req, res) => {
+router.post('/', async (req, res) => {
     const { titulo, descripcion, categoriaId, usuarioID } = req.body;
 
     if (!titulo || !descripcion || !categoriaId || !usuarioID) {
@@ -23,22 +23,7 @@ router.post('/tickets', async (req, res) => {
     }
 });
 
-// Ruta para obtener los tickets del usuario
-router.get('/tickets', async (req, res) => {
-    const { usuarioID } = req.query;
 
-    if (!usuarioID) {
-        return res.status(400).send('Falta el ID del usuario');
-    }
-
-    try {
-        const tickets = await ticketModel.obtenerTicketsUsuario(usuarioID);
-        res.json({ tickets });
-    } catch (error) {
-        console.error('Error al obtener los tickets del usuario:', error.message);
-        res.status(500).send('Error en el servidor');
-    }
-});
 
 // Ruta para obtener todos los tickets
 router.get('/todos-los-tickets', async (req, res) => {
@@ -50,6 +35,30 @@ router.get('/todos-los-tickets', async (req, res) => {
         res.status(500).send('Error en el servidor');
     }
 });
+
+// Ruta para obtener todos los tickets pendientes
+router.get('/ticketsP', async (req, res) => {
+    try {
+        const tickets = await ticketModel.obtenerTodosLosTicketsPendientes();
+        res.json({ tickets });
+    } catch (error) {
+        console.error('Error al obtener tickets pendientes:', error.message);
+        res.status(500).send('Error en el servidor');
+    }
+});
+
+// Ruta para obtener todos los tickets resueltos
+router.get('/ticketsR', async (req, res) => {
+    try {
+        const tickets = await ticketModel.obtenerTodosLosTicketsResueltos();
+        res.json({ tickets });
+    } catch (error) {
+        console.error('Error al obtener tickets resueltos:', error.message);
+        res.status(500).send('Error en el servidor');
+    }
+});
+
+
 
 // Ruta para escalar un ticket
 router.post('/escalar-ticket', async (req, res) => {

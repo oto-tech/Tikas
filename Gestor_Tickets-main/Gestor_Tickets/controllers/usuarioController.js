@@ -4,14 +4,14 @@ const usuarioModel = require('../models/usuarioModel');
 
 // Ruta para crear un nuevo usuario
 router.post('/', async (req, res) => {
-    const { nombre, apellido, email, contrasenia, rol_id } = req.body;
+    const { nombre, apellido, email, contrasenia} = req.body;
 
-    if (!nombre || !apellido || !email || !contrasenia || !rol_id) {
+    if (!nombre || !apellido || !email || !contrasenia) {
         return res.status(400).send('Faltan datos necesarios para crear el usuario');
     }
 
     try {
-        const creado = await usuarioModel.nuevoUsuario(nombre, apellido, email, contrasenia, rol_id);
+        const creado = await usuarioModel.nuevoUsuario(nombre, apellido, email, contrasenia);
         if (creado) {
             res.status(201).send('Usuario creado correctamente');
         } else {

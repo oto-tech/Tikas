@@ -20,33 +20,38 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#crearTicketModal">
+                    <a href="#" class="nav-link" data-section="crearTicket">
                         <i class="fas fa-plus-circle"></i> Crear Ticket
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-edit"></i> Editar Ticket
+                    <a href="#" class="nav-link" data-section="ticketsPendientes">
+                        <i class="fas fa-edit"></i> Tickets Pendientes
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#asignarTicketModal">
+                    <a href="#" class="nav-link" data-section="ticketsResueltos">
+                        <i class="fas fa-check-circle"></i> Tickets Resueltos
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-section="historial">
+                        <i class="fas fa-chart-bar"></i> Historial
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-section="asignarTicket">
                         <i class="fas fa-user-plus"></i> Asignar Ticket
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-chart-bar"></i> Ver Reportes
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-chart-line"></i> Estadísticas
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#crearUsuarioModal">
+                    <a href="#" class="nav-link" data-section="crearUsuario">
                         <i class="fas fa-user-plus"></i> Crear Usuario
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-section="crearTecnico">
+                        <i class="fas fa-user-plus"></i> Crear Técnico
                     </a>
                 </li>
             </ul>
@@ -65,135 +70,235 @@
                         <h2 class="page-title">Gestión de Tickets</h2>
                     </div>
                 </div>
-                <h2 class="mb-3">Lista de Tickets</h2>
-                <div class="table-responsive lista-tickets-container">
-                    <ul class="list-group list-group-flush" id="listaTickets">
-                        <!-- Contenido de la lista de tickets -->
-                    </ul>
-                </div>
 
-                <!-- Modal Descripción del Ticket -->
-                <div class="modal fade" id="descripcionTicketModal" tabindex="-1" aria-labelledby="descripcionTicketModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="descripcionTicketModalLabel">Descripción del Ticket</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p id="ticketDescription"></p>
-                                <p id="creadoPor"></p>
-                                <p id="prioridad"></p>
-                            </div>
-                            <div class="modal-footer">
-                                <div class="btn-group" role="group" aria-label="Escalar Ticket">
-                                    <button type="button" class="btn btn-custom-green" id="escalateLow" data-prioridad="1">Escalar 1</button>
-                                    <button type="button" class="btn btn-custom-orange" id="escalateMedium" data-prioridad="2">Escalar 2</button>
-                                    <button type="button" class="btn btn-custom-red" id="escalateHigh" data-prioridad="3">Escalar 3</button>
-                                </div>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
+                <!-- Secciones de Contenido -->
+                <!-- Dashboard -->
+                <div id="dashboard" class="content-section">
+                    <h2 class="mb-3">Lista de Tickets</h2>
+                    <div id="dashboardAlert"></div>
+                    <div class="table-responsive lista-tickets-container">
+                        <ul class="list-group list-group-flush" id="listaTickets">
+                            <!-- Contenido de la lista de tickets -->
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Modal Crear Ticket -->
-                <div class="modal fade" id="crearTicketModal" tabindex="-1" aria-labelledby="crearTicketModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="crearTicketModalLabel">Crear Nuevo Ticket</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="ticketForm">
-                                    <div class="mb-3">
-                                        <label for="titulo" class="form-label">Título del Ticket</label>
-                                        <input type="text" class="form-control" id="titulo" placeholder="Ingrese el título" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="descripcion" class="form-label">Descripción del Ticket</label>
-                                        <textarea class="form-control" id="descripcion" rows="3" placeholder="Ingrese la descripción" required></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="categoria" class="form-label">Categoría del Ticket</label>
-                                        <select class="form-select" id="categoria" required>
-                                            <option value="1">Soporte General</option>
-                                            <option value="2">Problemas Técnicos</option>
-                                            <option value="3">Solicitud de Mejora</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" id="btnCrearTicket" class="btn btn-primary">Crear Ticket</button>
-                                </form>
-                            </div>
+                <!-- Crear Ticket -->
+                <div id="crearTicket" class="content-section d-none">
+                    <h2 class="mb-3">Crear Nuevo Ticket</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="crearTicketAlert"></div>
+                    
+                    <form id="ticketForm">
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título del Ticket</label>
+                            <input type="text" class="form-control" id="titulo" placeholder="Ingrese el título" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción del Ticket</label>
+                            <textarea class="form-control" id="descripcion" rows="3" placeholder="Ingrese la descripción" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoría del Ticket</label>
+                            <select class="form-select" id="categoria" required>
+                                <option value="1">Soporte General</option>
+                                <option value="2">Problemas Técnicos</option>
+                                <option value="3">Solicitud de Mejora</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="btnCrearTicket" class="btn btn-primary">Crear Ticket</button>
+                    </form>
+                </div>
+
+                <!-- Tickets Pendientes -->
+                <div id="ticketsPendientes" class="content-section d-none">
+                    <h2 class="mb-3">Tickets Pendientes</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="ticketsPendientesAlert"></div>
+                    
+                    <!-- Tabla para mostrar los tickets pendientes -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaTicketsPendientes">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Descripción</th>
+                                    <th>Creado Por</th>
+                                    <th>Prioridad</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de tickets pendientes se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <!-- Modal Crear Usuario -->
-                <div class="modal fade" id="crearUsuarioModal" tabindex="-1" aria-labelledby="crearUsuarioModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="crearUsuarioModalLabel">Crear Nuevo Usuario</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="usuarioForm">
-                                    <div class="mb-3">
-                                        <label for="nombre" class="form-label">Nombre del Usuario</label>
-                                        <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del usuario" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="apellido" class="form-label">Apellido del Usuario</label>
-                                        <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido del usuario" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Correo Electrónico</label>
-                                        <input type="email" class="form-control" id="email" placeholder="Ingrese el correo electrónico" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="contrasenia" class="form-label">Contraseña</label>
-                                        <input type="password" class="form-control" id="contrasenia" placeholder="Ingrese la contraseña" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="rol_id" class="form-label">Rol</label>
-                                        <select class="form-select" id="rol_id" required>
-                                            <option value="1">Administrador</option>
-                                            <option value="2">Técnico</option>
-                                            <option value="3">Usuario</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
-                                </form>
-                            </div>
-                        </div>
+                <!-- Tickets Resueltos -->
+                <div id="ticketsResueltos" class="content-section d-none">
+                    <h2 class="mb-3">Tickets Resueltos</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="ticketsResueltosAlert"></div>
+                    
+                    <!-- Tabla para mostrar los tickets resueltos -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaTicketsResueltos">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Descripción</th>
+                                    <th>Creado Por</th>
+                                    <th>Prioridad</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Fecha de Resolución</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de tickets resueltos se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <!-- Modal Asignar Ticket -->
-                <div class="modal fade" id="asignarTicketModal" tabindex="-1" aria-labelledby="asignarTicketModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="asignarTicketModalLabel">Asignar Ticket</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="asignarTicketForm">
-                                    <div class="mb-3">
-                                        <label for="ticketIdAsignar" class="form-label">ID del Ticket</label>
-                                        <input type="number" class="form-control" id="ticketIdAsignar" placeholder="Ingrese el ID del ticket" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="tecnicoIdAsignar" class="form-label">ID del Técnico</label>
-                                        <input type="number" class="form-control" id="tecnicoIdAsignar" placeholder="Ingrese el ID del técnico" required>
-                                    </div>
-                                    <button type="submit" id="btnAsignarTicket" class="btn btn-primary">Asignar Ticket</button>
-                                </form>
-                            </div>
-                        </div>
+                <!-- Historial -->
+                <div id="historial" class="content-section d-none">
+                    <h2 class="mb-3">Historial de Tickets</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="historialAlert"></div>
+                    
+                    <!-- Tabla para mostrar todos los tickets -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaHistorialTickets">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Descripción</th>
+                                    <th>Creado Por</th>
+                                    <th>Prioridad</th>
+                                    <th>Estado</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Fecha de Resolución</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de tickets se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+
+                <!-- Asignar Ticket -->
+                <div id="asignarTicket" class="content-section d-none">
+                    <h2 class="mb-3">Asignar Ticket</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="asignarTicketAlert"></div>
+                    
+                    <form id="asignarTicketForm">
+                        <div class="mb-3">
+                            <label for="ticketIdAsignar" class="form-label">ID del Ticket</label>
+                            <input type="number" class="form-control" id="ticketIdAsignar" placeholder="Ingrese el ID del ticket" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tecnicoIdAsignar" class="form-label">ID del Técnico</label>
+                            <input type="number" class="form-control" id="tecnicoIdAsignar" placeholder="Ingrese el ID del técnico" required>
+                        </div>
+                        <button type="submit" id="btnAsignarTicket" class="btn btn-primary">Asignar Ticket</button>
+                    </form>
+                </div>
+
+                <!-- Crear Usuario -->
+                <div id="crearUsuario" class="content-section d-none">
+                    <h2 class="mb-3">Crear Nuevo Usuario</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="crearUsuarioAlert"></div>
+                    
+                    <form id="usuarioForm">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre del Usuario</label>
+                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del usuario" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido del Usuario</label>
+                            <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido del usuario" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="email" placeholder="Ingrese el correo electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contrasenia" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="contrasenia" placeholder="Ingrese la contraseña" required>
+                        </div>
+                        <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
+                    </form>
+                </div>
+
+                <!-- Crear Técnico -->
+                <div id="crearTecnico" class="content-section d-none">
+                    <h2 class="mb-3">Crear Nuevo Técnico</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="crearTecnicoAlert"></div>
+                    
+                    <form id="tecnicoForm">
+                        <div class="mb-3">
+                            <label for="nombreTecnico" class="form-label">Nombre del Técnico</label>
+                            <input type="text" class="form-control" id="nombreTecnico" placeholder="Ingrese el nombre del técnico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidoTecnico" class="form-label">Apellido del Técnico</label>
+                            <input type="text" class="form-control" id="apellidoTecnico" placeholder="Ingrese el apellido del técnico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailTecnico" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="emailTecnico" placeholder="Ingrese el correo electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contraseniaTecnico" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="contraseniaTecnico" placeholder="Ingrese la contraseña" required>
+                        </div>
+                        <button type="submit" id="btnCrearTecnico" class="btn btn-primary">Crear Técnico</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalles del Ticket -->
+    <div class="modal fade" id="detallesTicketModal" tabindex="-1" aria-labelledby="detallesTicketModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles del Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>ID:</strong> <span id="detalleTicketID"></span></p>
+                    <p><strong>Asunto:</strong> <span id="detalleTicketAsunto"></span></p>
+                    <p><strong>Descripción:</strong> <span id="detalleTicketDescripcion"></span></p>
+                    <p><strong>Creado Por:</strong> <span id="detalleTicketCreadoPor"></span></p>
+                    <p><strong>Prioridad:</strong> <span id="detalleTicketPrioridad"></span></p>
+                    <p><strong>Estado:</strong> <span id="detalleTicketEstado"></span></p>
+                    <p><strong>Fecha de Creación:</strong> <span id="detalleTicketFechaCreacion"></span></p>
+                    <p><strong>Fecha de Resolución:</strong> <span id="detalleTicketFechaResolucion"></span></p>
+                    <p><strong>Solución:</strong> <span id="detalleTicketSolucion"></span></p>
+                    <!-- Puedes agregar más detalles según tus necesidades -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -205,5 +310,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <!-- Custom JS -->
     <script src="Administrador.js"></script>
+    <script src="Funcionalidades.js"></script>
 </body>
 </html>
