@@ -11,6 +11,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="stylesAdministrador.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <div class="d-flex">
@@ -30,6 +33,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#" class="nav-link" data-section="asignarTicket">
+                        <i class="fas fa-user-plus"></i> Asignar Ticket
+                    </a>
+                </li>
+                <li>
                     <a href="#" class="nav-link" data-section="ticketsResueltos">
                         <i class="fas fa-check-circle"></i> Tickets Resueltos
                     </a>
@@ -39,9 +47,10 @@
                         <i class="fas fa-chart-bar"></i> Historial
                     </a>
                 </li>
+               
                 <li>
-                    <a href="#" class="nav-link" data-section="asignarTicket">
-                        <i class="fas fa-user-plus"></i> Asignar Ticket
+                    <a href="#" class="nav-link" data-section="listaUsuarios">
+                        <i class="fas fa-users"></i> Usuarios
                     </a>
                 </li>
                 <li>
@@ -50,10 +59,16 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#" class="nav-link" data-section="listaTecnicos">
+                        <i class="fas fa-tools"></i> Técnicos
+                    </a>
+                </li>
+                <li>
                     <a href="#" class="nav-link" data-section="crearTecnico">
                         <i class="fas fa-user-plus"></i> Crear Técnico
                     </a>
                 </li>
+                       
             </ul>
             <hr>
             <div class="text-center">
@@ -227,20 +242,20 @@
                     
                     <form id="usuarioForm">
                         <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre del Usuario</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del usuario" required>
+                            <label for="nombreUsuario" class="form-label">Nombre del Usuario</label>
+                            <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese el nombre del usuario" required>
                         </div>
                         <div class="mb-3">
-                            <label for="apellido" class="form-label">Apellido del Usuario</label>
-                            <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido del usuario" required>
+                            <label for="apellidoUsuario" class="form-label">Apellido del Usuario</label>
+                            <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese el apellido del usuario" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="email" placeholder="Ingrese el correo electrónico" required>
+                            <label for="emailUsuario" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="emailUsuario" placeholder="Ingrese el correo electrónico" required>
                         </div>
                         <div class="mb-3">
-                            <label for="contrasenia" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="contrasenia" placeholder="Ingrese la contraseña" required>
+                            <label for="contraseniaUsuario" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="contraseniaUsuario" placeholder="Ingrese la contraseña" required>
                         </div>
                         <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
                     </form>
@@ -272,6 +287,63 @@
                         </div>
                         <button type="submit" id="btnCrearTecnico" class="btn btn-primary">Crear Técnico</button>
                     </form>
+                </div>
+
+                <!-- Nuevas secciones añadidas -->
+                <!-- Lista de Usuarios -->
+                <div id="listaUsuarios" class="content-section d-none">
+                    <h2 class="mb-3">Lista de Usuarios</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="listaUsuariosAlert"></div>
+                    
+                    <!-- Tabla para mostrar los usuarios -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaUsuarios">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de usuarios se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                    
+
+                <!-- Lista de Técnicos -->
+                <div id="listaTecnicos" class="content-section d-none">
+                    <h2 class="mb-3">Lista de Técnicos</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="listaTecnicosAlert"></div>
+                    
+                    <!-- Tabla para mostrar los técnicos -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaTecnicos">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de técnicos se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -313,3 +385,4 @@
     <script src="Funcionalidades.js"></script>
 </body>
 </html>
+

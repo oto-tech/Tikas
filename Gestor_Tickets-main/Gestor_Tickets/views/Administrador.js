@@ -318,9 +318,35 @@ function cargarListaTicketsResueltos() {
         });
     });
 
-
-
-     
+     // Manejar creación de nuevo ticket
+     $('#ticketForm').on('submit', function(event) {
+        event.preventDefault();
+    
+        const titulo = $('#titulo').val();
+        const descripcion = $('#descripcion').val();
+        const categoriaId = $('#categoria').val();
+        const usuarioID = localStorage.getItem('usuario_id') || 1; // ID del administrador
+    
+        $.ajax({
+            url: 'http://localhost:3000/tickets',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                titulo,
+                descripcion,
+                categoriaId,
+                usuarioID
+            }),
+            success: function() {
+                alert('Ticket creado correctamente');
+                $('#crearTicketModal').modal('hide');
+                cargarListaTickets();
+            },
+            error: function() {
+                alert('Error al crear el ticket');
+            }
+        });
+    });
 
 
 });

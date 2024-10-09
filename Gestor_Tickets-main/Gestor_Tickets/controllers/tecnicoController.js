@@ -30,4 +30,15 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Ruta para obtener todos los tickets resueltos
+router.get('/tecnicoC', async (req, res) => {
+    try {
+        const tickets = await ticketModel.obtenerTecnicos();
+        res.json({ tickets });
+    } catch (error) {
+        console.error('Error al obtener los tecnicos:', error.message);
+        res.status(500).send('Error en el servidor');
+    }
+});
+
 module.exports = router;

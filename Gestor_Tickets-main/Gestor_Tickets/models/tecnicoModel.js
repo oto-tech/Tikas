@@ -33,6 +33,29 @@ async function nuevotecnico(nombreTecnico, apellidoTecnico, emailTecnico, contra
     }
 }
 
+// Función para obtener todos los técnicos (rol_id = 2)
+async function obtenerTecnicos() {
+    let connection;
+
+    try {
+        connection = await mysql.createConnection(config);
+        const [rows] = await connection.execute(
+            'SELECT administrador_id AS tecnico_id, nombre, apellido, email, fecha_creacion ' +
+            'FROM Administrador ' +
+            'WHERE rol_id = 2' // Asumiendo rol_id 2 para técnicos
+        );
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener los técnicos:', error.message);
+        return [];
+    } finally {
+        if (connection) {
+            await connection.end();
+        }
+    }
+}
+
 module.exports = {
     nuevotecnico,
+    obtenerTecnicos,
 };

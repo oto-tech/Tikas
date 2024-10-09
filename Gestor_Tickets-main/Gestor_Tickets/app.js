@@ -4,7 +4,9 @@ const path = require('path');
 const conectarDB = require('./conexion'); // Asegúrate de que la ruta sea correcta
 const ticketController = require('./controllers/ticketController');
 const usuarioController = require('./controllers/usuarioController');
+const obtenerUController = require('./controllers/obtenerUController');
 const tecnicoController = require('./controllers/tecnicoController');
+const obtenerTController = require('./controllers/obtenerTController');
 
 const app = express();
 const PORT = 3000;
@@ -15,9 +17,13 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'Gestor_Tickets')));  // Sirve archivos estáticos desde 'public'
 
 // Rutas
-app.use('/crear-ticket', ticketController);
 app.use('/usuarios', usuarioController); // Ruta para usuarios
+app.use('/usuariosC', obtenerUController); //ruta para obtener los usuarios
+
 app.use('/tecnico', tecnicoController); // Ruta para tecnicos
+app.use('/tecnicoC', obtenerTController); //ruta para obtener los tecnicos
+
+app.use('/crear-ticket', ticketController);
 app.use('/tickets', ticketController);
 app.use('/ticketsP', ticketController);
 app.use('/ticketsR', ticketController);

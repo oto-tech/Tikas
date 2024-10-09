@@ -1,113 +1,68 @@
-/* General body styles */
 body {
     background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 
-/* Sidebar styles */
 .sidebar {
-    background-color: #343a40;
-    color: #fff;
-    min-width: 250px;
-    height: 100vh;
     position: fixed;
-    top: 0;
-    left: 0;
+    height: 100%;
+    transition: width 0.3s;
 }
 
 .sidebar h2 {
-    color: #fff;
     font-size: 1.5rem;
+    color: #f8f9fa;
 }
 
-.sidebar .nav-link {
-    color: #ced4da;
-    padding: 10px;
+.nav-link {
+    color: #f8f9fa;
 }
 
-.sidebar .nav-link:hover {
+.nav-link:hover {
     background-color: #495057;
+}
+
+.nav-link.active {
+    background-color: #343a40;
     color: #fff;
 }
 
-.sidebar .nav-link i {
-    margin-right: 8px;
-}
-
-.sidebar hr {
-    border-color: #495057;
-}
-
-.sidebar .text-center {
-    margin-top: auto;
-}
-
-.sidebar .text-center a {
-    color: #dc3545;
-    text-decoration: none;
-}
-
-.sidebar .text-center a:hover {
-    text-decoration: underline;
-}
-
-/* Main content styles */
 .content {
-    margin-left: 250px;
-    padding: 20px;
+    margin-left: 250px; /* Asegura que el contenido no se superponga al sidebar */
 }
 
 .page-title {
     font-size: 2rem;
-    font-weight: 600;
-    color: #212529;
+    margin-bottom: 1rem;
 }
 
-/* Table styles */
-.table-responsive {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
+.table {
+    margin-top: 20px;
 }
 
-.lista-tickets-container {
-    max-height: 500px;
-    overflow-y: auto;
+.table-hover tbody tr:hover {
+    background-color: #e2e3e5;
 }
 
-/* Modal styles */
-.modal-content {
-    border-radius: 8px;
-}
-
-.modal-header {
-    background-color: #007bff;
+.table-dark th {
+    background-color: #343a40;
     color: #fff;
 }
 
-.modal-header .btn-close {
-    background-color: #dc3545;
+.table-responsive {
+    margin-top: 20px;
 }
 
-.modal-header .btn-close:hover {
-    background-color: #c82333;
-}
-
-.modal-body {
-    padding: 20px;
+.modal-header {
+    background-color: #343a40;
+    color: #fff;
 }
 
 .modal-footer {
-    border-top: none;
-    padding: 15px;
+    justify-content: space-between;
 }
 
 .btn-secondary {
     background-color: #6c757d;
-    border: none;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
+    border-color: #6c757d;
 }
