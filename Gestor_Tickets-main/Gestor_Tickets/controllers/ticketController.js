@@ -23,8 +23,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-
 // Ruta para obtener todos los tickets
 router.get('/todos-los-tickets', async (req, res) => {
     try {

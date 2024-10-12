@@ -9,6 +9,8 @@ const config = {
 
 
 
+
+
 async function obtenerUsuarios() {
     let connection;
 

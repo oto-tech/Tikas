@@ -4,8 +4,6 @@ const obtenerUModel = require('../models/obtenerUModel');
 
 // Ruta para obtener todos los usuarios
 
-
-
 router.get('/', async (req, res) => {
     try {
         const usuarios = await obtenerUModel.obtenerUsuarios();

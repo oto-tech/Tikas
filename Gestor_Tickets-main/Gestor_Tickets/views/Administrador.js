@@ -148,8 +148,8 @@ $(document).ready(function() {
                             <td>${ticket.descripcion}</td>
                             <td>${ticket.nombre_usuario}</td>
                             <td>${obtenerPrioridad(ticket.prioridad_id)}</td>
-                            <td>${obtenerEstado(ticket.estado_id)}</td>
-                            <td>${formatearFecha(ticket.fecha_creacion)}</td>
+                            <td>${ticket.estado}</td>
+                            <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
                             <td>${ticket.fecha_resolucion ? formatearFecha(ticket.fecha_resolucion) : 'N/A'}</td>
                             <td>
                                 <!-- Puedes agregar botones de acción aquí -->
@@ -194,7 +194,7 @@ function cargarListaTicketsPendientes() {
                         <td>${ticket.descripcion}</td>
                         <td>${ticket.nombre_usuario}</td>
                         <td>${obtenerPrioridad(ticket.prioridad_id)}</td>
-                        <td>${formatearFecha(ticket.fecha_creacion)}</td>
+                        <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
                         <td>
                             <!-- Botones de acción -->
                             <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}">Ver</button>
@@ -238,7 +238,7 @@ function cargarListaTicketsResueltos() {
                         <td>${ticket.descripcion}</td>
                         <td>${ticket.nombre_usuario}</td>
                         <td>${obtenerPrioridad(ticket.prioridad_id)}</td>
-                        <td>${formatearFecha(ticket.fecha_creacion)}</td>
+                        <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
                         <td>${ticket.fecha_resolucion ? formatearFecha(ticket.fecha_resolucion) : 'N/A'}</td>
                         <td>
                             <!-- Botones de acción -->
@@ -254,8 +254,6 @@ function cargarListaTicketsResueltos() {
         }
     });
 }
-
-
 
     // Manejar clic en botones de "Ver Detalles" para mostrar información en el modal
     $('.content').on('click', '.ver-detalles', function() {
