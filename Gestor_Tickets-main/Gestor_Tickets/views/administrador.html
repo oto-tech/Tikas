@@ -233,33 +233,37 @@
                     </form>
                 </div>
 
-                <!-- Crear Usuario -->
-                <div id="crearUsuario" class="content-section d-none">
-                    <h2 class="mb-3">Crear Nuevo Usuario</h2>
-                    
-                    <!-- Contenedor para mensajes de alerta -->
-                    <div id="crearUsuarioAlert"></div>
-                    
-                    <form id="usuarioForm">
-                        <div class="mb-3">
-                            <label for="nombreUsuario" class="form-label">Nombre del Usuario</label>
-                            <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese el nombre del usuario" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="apellidoUsuario" class="form-label">Apellido del Usuario</label>
-                            <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese el apellido del usuario" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="emailUsuario" class="form-label">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="emailUsuario" placeholder="Ingrese el correo electrónico" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contraseniaUsuario" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="contraseniaUsuario" placeholder="Ingrese la contraseña" required>
-                        </div>
-                        <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
-                    </form>
-                </div>
+
+                
+             <!-- Crear Usuario -->
+<div id="crearUsuario" class="content-section d-none">
+    <h2 class="mb-3">Crear Nuevo Usuario</h2>
+    
+    <!-- Contenedor para mensajes de alerta -->
+    <div id="crearUsuarioAlert"></div>
+    
+    <form id="usuarioForm">
+        <div class="mb-3">
+            <label for="nombreUsuario" class="form-label">Nombre del Usuario</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del usuario" required>
+        </div>
+        <div class="mb-3">
+            <label for="apellidoUsuario" class="form-label">Apellido del Usuario</label>
+            <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido del usuario" required>
+        </div>
+        <div class="mb-3">
+            <label for="emailUsuario" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" placeholder="Ingrese el correo electrónico" required>
+        </div>
+        <div class="mb-3">
+            <label for="contraseniaUsuario" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="contrasenia" placeholder="Ingrese la contraseña" required>
+        </div>
+        <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
+    </form>
+</div>
+                
+
 
                 <!-- Crear Técnico -->
                 <div id="crearTecnico" class="content-section d-none">
@@ -382,7 +386,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <!-- Custom JS -->
     <script src="Administrador.js"></script>
-    <script src="Funcionalidades.js"></script>
-</body>
+    <script src="backusuarios.js"></script>
+    <script src="backtecnicos.js"></script>
 </html>
 

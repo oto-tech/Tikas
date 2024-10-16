@@ -346,5 +346,4 @@ function cargarListaTicketsResueltos() {
         });
     });
 
-
 });

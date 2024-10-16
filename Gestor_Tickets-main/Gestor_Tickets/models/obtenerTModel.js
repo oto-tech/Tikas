@@ -36,6 +36,9 @@ async function obtenerTecnicos() {
     }
 }
 
+
+
+
 module.exports = {
     obtenerTecnicos,
 };

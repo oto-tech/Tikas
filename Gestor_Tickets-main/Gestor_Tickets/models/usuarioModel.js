@@ -1,11 +1,11 @@
 const mysql = require('mysql2/promise');
 
+// Configuración de la conexión a la base de datos
 const config = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'USUARIO_NE',
     password: process.env.DB_PASSWORD || 'Manager1',
     database: process.env.DB_NAME || 'GestorTickets2'
-
 };
 
 // Función para crear un nuevo usuario en la base de datos
@@ -33,3 +33,8 @@ async function nuevoUsuario(nombre, apellido, email, contrasenia) {
 module.exports = {
     nuevoUsuario,
 };
+
+
+
+
+

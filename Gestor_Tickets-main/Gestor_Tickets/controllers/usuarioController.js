@@ -6,14 +6,12 @@ const usuarioModel = require('../models/usuarioModel');
 router.post('/', async (req, res) => {
     const { nombre, apellido, email, contrasenia } = req.body;
 
-    // Validar que se reciban todos los datos necesarios
-    if (!nombre || !apellido || !email || !contrasenia) {
+    if (!nombre || !apellido || !email || !contrasenia ) {
         return res.status(400).send('Faltan datos necesarios para crear el usuario');
     }
 
     try {
-        // Llama a la función para crear un nuevo usuario
-        const creado = await usuarioModel.nuevoUsuario(nombre, apellido, email, contrasenia);
+        const creado = await usuarioModel.nuevoUsuario(nombre, apellido, email, contrasenia );
         if (creado) {
             res.status(201).send('Usuario creado correctamente');
         } else {
@@ -25,6 +23,10 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-
 module.exports = router;
+
+
+
+
+
+

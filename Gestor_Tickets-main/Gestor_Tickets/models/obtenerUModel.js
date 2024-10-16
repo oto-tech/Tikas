@@ -7,10 +7,6 @@ const config = {
     database: process.env.DB_NAME || 'GestorTickets2'
 };
 
-
-
-
-
 async function obtenerUsuarios() {
     let connection;
 
