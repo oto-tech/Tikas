@@ -1,68 +1,369 @@
-body {
-    background-color: #f8f9fa;
-    font-family: 'Arial', sans-serif;
+/* -------------------------------
+   Variables CSS para una gestión de colores más sencilla
+-------------------------------- */
+:root {
+    /* Colores principales */
+    --color-sidebar-bg: #2c3e50;
+    --color-sidebar-text: #ecf0f1;
+    --color-sidebar-hover-bg: #34495e;
+    --color-sidebar-active-bg: #2980b9;
+    --color-content-bg: #ecf0f1;
+    --color-header-bg: #ffffff;
+    --color-text: #2c3e50;
+    --color-button-green: #27ae60;
+    --color-button-orange: #e67e22;
+    --color-button-red: #c0392b;
+    --color-table-header: #2980b9;
+    --color-table-row-hover: #dfe6e9;
+    --color-alert-danger: #e74c3c;
+    --color-alert-success: #2ecc71;
+    --color-alert-warning: #f39c12;
+
+    /* Tipografía */
+    --font-family: 'Roboto', sans-serif;
+    --font-size-base: 16px;
 }
 
+/* -------------------------------
+   Reset de Margen y Padding
+-------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    background-color: var(--color-content-bg);
+}
+
+/* -------------------------------
+   Sidebar
+-------------------------------- */
 .sidebar {
+    width: 250px;
+    background-color: var(--color-sidebar-bg);
+    color: var(--color-sidebar-text);
+    height: 100vh;
     position: fixed;
-    height: 100%;
-    transition: width 0.3s;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    transition: width 0.3s ease;
 }
 
 .sidebar h2 {
+    font-weight: 700;
     font-size: 1.5rem;
-    color: #f8f9fa;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(236, 240, 241, 0.2);
 }
 
-.nav-link {
-    color: #f8f9fa;
+.sidebar .nav-pills .nav-link {
+    color: var(--color-sidebar-text);
+    margin-bottom: 8px;
+    padding: 12px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
-.nav-link:hover {
-    background-color: #495057;
+.sidebar .nav-pills .nav-link:hover {
+    color: #ffffff;
+    background-color: var(--color-sidebar-hover-bg);
 }
 
-.nav-link.active {
-    background-color: #343a40;
-    color: #fff;
+.sidebar .nav-pills .nav-link.active {
+    color: #ffffff;
+    background-color: var(--color-sidebar-active-bg);
 }
 
+.sidebar .nav-pills .nav-link i {
+    margin-right: 10px;
+}
+
+/* -------------------------------
+   Contenido Principal
+-------------------------------- */
 .content {
-    margin-left: 250px; /* Asegura que el contenido no se superponga al sidebar */
+    margin-left: 250px; /* Ancho del sidebar */
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    background-color: var(--color-content-bg);
+    padding: 30px;
+    transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        position: absolute;
+        width: 100%;
+        height: auto;
+        z-index: 1000;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+/* -------------------------------
+   Tipografía y Títulos
+-------------------------------- */
 .page-title {
+    color: var(--color-text);
     font-size: 2rem;
-    margin-bottom: 1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
 }
 
-.table {
-    margin-top: 20px;
+h2 {
+    font-size: 1.75rem;
+    color: var(--color-text);
+    margin-bottom: 20px;
 }
 
-.table-hover tbody tr:hover {
-    background-color: #e2e3e5;
-}
-
-.table-dark th {
-    background-color: #343a40;
+/* -------------------------------
+   Botones Personalizados
+-------------------------------- */
+.btn-custom-green {
+    background-color: var(--color-button-green);
     color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
 }
 
+.btn-custom-green:hover {
+    background-color: #219150;
+}
+
+.btn-custom-orange {
+    background-color: var(--color-button-orange);
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-orange:hover {
+    background-color: #d35400;
+}
+
+.btn-custom-red {
+    background-color: var(--color-button-red);
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom-red:hover {
+    background-color: #a93226;
+}
+
+/* Botones estándar mejorados */
+.btn-primary {
+    background-color: #2980b9;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1f6391;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #606f73;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* -------------------------------
+   Contenedor de Tickets y Listas
+-------------------------------- */
+.lista-tickets-container,
+.table-responsive {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* -------------------------------
+   List Group Items
+-------------------------------- */
+.list-group-item {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 15px 20px;
+    border: none;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.list-group-item:hover {
+    background-color: #f9f9f9;
+}
+
+/* -------------------------------
+   Tablas
+-------------------------------- */
 .table-responsive {
     margin-top: 20px;
 }
 
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: var(--color-table-header);
+    color: #ffffff;
+    text-align: left;
+    font-weight: 600;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: var(--color-table-row-hover);
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* -------------------------------
+   Alertas
+-------------------------------- */
+.alert {
+    margin-bottom: 20px;
+    border-radius: 4px;
+    padding: 15px 20px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: var(--color-alert-success);
+    color: #ffffff;
+}
+
+.alert-danger {
+    background-color: var(--color-alert-danger);
+    color: #ffffff;
+}
+
+.alert-warning {
+    background-color: var(--color-alert-warning);
+    color: #ffffff;
+}
+
+/* -------------------------------
+   Formularios
+-------------------------------- */
+.form-label {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #2980b9;
+    box-shadow: 0 0 0 0.2rem rgba(41, 128, 185, 0.25);
+}
+
+.form-select {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    transition: border-color 0.3s ease;
+}
+
+.form-select:focus {
+    border-color: #2980b9;
+    box-shadow: 0 0 0 0.2rem rgba(41, 128, 185, 0.25);
+}
+
+/* -------------------------------
+   Modal
+-------------------------------- */
+.modal-content {
+    border-radius: 8px;
+}
+
 .modal-header {
-    background-color: #343a40;
-    color: #fff;
+    border-bottom: none;
+    padding: 20px 25px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.modal-body {
+    padding: 20px 25px;
+    color: #2c3e50;
 }
 
 .modal-footer {
-    justify-content: space-between;
+    border-top: none;
+    padding: 15px 25px;
 }
 
-.btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
+@media (max-width: 576px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
 }

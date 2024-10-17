@@ -3,6 +3,12 @@ $(document).ready(function() {
     // Obtener y mostrar el nombre del usuario desde localStorage
     const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Administrador';
     $('#nombreUsuario').text(nombreUsuario);
+    const usuarioID = localStorage.getItem('usuario_id');
+
+    if (!usuarioID) {
+        alert('No se encontró el ID del usuario. Debes iniciar sesión.');
+        window.location.href = 'login.html'; // Redirige al usuario a la página de login si no hay ID de usuario
+    }
 
     // Función para mostrar la sección seleccionada
     function showSection(sectionId) {
@@ -316,34 +322,48 @@ function cargarListaTicketsResueltos() {
         });
     });
 
-     // Manejar creación de nuevo ticket
-     $('#ticketForm').on('submit', function(event) {
-        event.preventDefault();
+  // Manejar la creación de un nuevo ticket
+$('#ticketForm').on('submit', function(event) {
+    event.preventDefault();
+
+    const titulo = $('#titulo').val();
+    const descripcion = $('#descripcion').val();
+    const categoriaId = $('#categoria').val();
     
-        const titulo = $('#titulo').val();
-        const descripcion = $('#descripcion').val();
-        const categoriaId = $('#categoria').val();
-        const usuarioID = localStorage.getItem('usuario_id') || 1; // ID del administrador
-    
-        $.ajax({
-            url: 'http://localhost:3000/tickets',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                titulo,
-                descripcion,
-                categoriaId,
-                usuarioID
-            }),
-            success: function() {
-                alert('Ticket creado correctamente');
-                $('#crearTicketModal').modal('hide');
-                cargarListaTickets();
-            },
-            error: function() {
-                alert('Error al crear el ticket');
-            }
-        });
+    // Validar que los campos no estén vacíos
+    if (!titulo || !descripcion || !categoriaId) {
+        alert('Por favor, complete todos los campos.');
+        return;
+    }
+
+    $.ajax({
+        url: 'http://localhost:3000/tickets', // Asegúrate de que esta URL sea correcta según tu backend
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            titulo: titulo,
+            descripcion: descripcion,
+            categoriaId: categoriaId,
+            usuarioID: usuarioID // Enviar el ID del usuario que está creando el ticket
+        }),
+        success: function(response) {
+            // Mostrar mensaje de éxito
+            alert('Ticket creado correctamente');
+
+            // Limpiar el formulario
+            $('#ticketForm')[0].reset();
+
+            // Cargar la lista de tickets pendientes nuevamente
+            cargarListaTicketsPendientes();
+
+            // Ocultar la sección de creación de tickets y mostrar la tabla de tickets pendientes
+            showSection('pendientes');
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al crear el ticket:', error);
+            alert('Ocurrió un error al crear el ticket. Inténtelo nuevamente.');
+        }
     });
+});
 
 });

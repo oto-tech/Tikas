@@ -6,64 +6,74 @@
     <title>Usuario - Mis Tickets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="stylesUsuario.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bolder" href="#">MIS TICKETS</a>
-            <a href="../index.html" class="text-white">Salir</a>
-        </div>
-    </nav>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column p-3">
+            <h2 class="text-center">Panel Usuario</h2>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="crearTicket">
+                        <i class="fas fa-plus-circle"></i> Crear Ticket
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-section="ticketsPendientes">
+                        <i class="fas fa-edit"></i> Tickets Pendientes
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-section="ticketsResueltos">
+                        <i class="fas fa-check-circle"></i> Tickets Resueltos
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-section="historial">
+                        <i class="fas fa-chart-bar"></i> Historial
+                    </a>
+                </li>
+               
 
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-primary create-ticket-btn mb-4" data-bs-toggle="modal" data-bs-target="#crearTicketModal">Crear Nuevo Ticket</button>
-                <button type="button" class="btn btn-secondary ms-2 mb-4" data-bs-toggle="modal" data-bs-target="#misRespuestasModal">Mis Respuestas</button>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h2 class="mb-4">Mis Tickets</h2>
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Título</th>
-                                    <th scope="col">Categoría</th>
-                                </tr>
-                            </thead>
-                            <tbody id="misTicketsList">
-                                <!-- Aquí se mostrarán los tickets del usuario -->
-                            </tbody>
-                        </table>
+                       
+            </ul>
+            <hr>
+            <div class="text-center">
+                <span>Bienvenido/a <span id="nombreUsuario"></span></span><br>
+                <a href="../index.html" class="text-white">Salir</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content p-4">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <h2 class="page-title">Gestión de Tickets</h2>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Ventana emergente para mostrar la descripción del ticket -->
-    <div class="modal fade" id="descripcionTicketModal" tabindex="-1" aria-labelledby="descripcionTicketModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="descripcionTicketModalLabel">Descripción del Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- Secciones de Contenido -->
+                <!-- Dashboard -->
+                <div id="dashboard" class="content-section">
+                    <h2 class="mb-3">Lista de Tickets</h2>
+                    <div id="dashboardAlert"></div>
+                    <div class="table-responsive lista-tickets-container">
+                        <ul class="list-group list-group-flush" id="listaTickets">
+                            <!-- Contenido de la lista de tickets -->
+                        </ul>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p id="ticketDescription"></p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Crear Ticket -->
-    <div class="modal fade" id="crearTicketModal" tabindex="-1" aria-labelledby="crearTicketModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="crearTicketModalLabel">Crear Nuevo Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+                <!-- Crear Ticket -->
+                <div id="crearTicket" class="content-section d-none">
+                    <h2 class="mb-3">Crear Nuevo Ticket</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="crearTicketAlert"></div>
+                    
                     <form id="ticketForm">
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título del Ticket</label>
@@ -84,28 +94,123 @@
                         <button type="submit" id="btnCrearTicket" class="btn btn-primary">Crear Ticket</button>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Ventana emergente para mostrar las respuestas -->
-    <div class="modal fade" id="misRespuestasModal" tabindex="-1" aria-labelledby="misRespuestasModalLabel" aria-hidden="true">
+                <!-- Tickets Pendientes -->
+                <div id="ticketsPendientes" class="content-section d-none">
+                    <h2 class="mb-3">Tickets Pendientes</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="ticketsPendientesAlert"></div>
+                    
+                    <!-- Tabla para mostrar los tickets pendientes -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaTicketsPendientes">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Descripción</th>
+                                    <th>Creado Por</th>
+                                    <th>Prioridad</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de tickets pendientes se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tickets Resueltos -->
+                <div id="ticketsResueltos" class="content-section d-none">
+                    <h2 class="mb-3">Tickets Resueltos</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="ticketsResueltosAlert"></div>
+                    
+                    <!-- Tabla para mostrar los tickets resueltos -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaTicketsResueltos">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Descripción</th>
+                                    <th>Creado Por</th>
+                                    <th>Prioridad</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Fecha de Resolución</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de tickets resueltos se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Historial -->
+                <div id="historial" class="content-section d-none">
+                    <h2 class="mb-3">Historial de Tickets</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="historialAlert"></div>
+                    
+                    <!-- Tabla para mostrar todos los tickets -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaHistorialTickets">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Descripción</th>
+                                    <th>Creado Por</th>
+                                    <th>Prioridad</th>
+                                    <th>Estado</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Fecha de Resolución</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de tickets se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+       
+
+    <!-- Modal Detalles del Ticket -->
+    <div class="modal fade" id="detallesTicketModal" tabindex="-1" aria-labelledby="detallesTicketModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="misRespuestasModalLabel">Mis Respuestas</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Detalles del Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <ul id="respuestasList" class="list-group">
-                        <!-- Las respuestas se cargarán aquí mediante JavaScript -->
-                    </ul>
+                    <p><strong>ID:</strong> <span id="detalleTicketID"></span></p>
+                    <p><strong>Asunto:</strong> <span id="detalleTicketAsunto"></span></p>
+                    <p><strong>Descripción:</strong> <span id="detalleTicketDescripcion"></span></p>
+                    <p><strong>Creado Por:</strong> <span id="detalleTicketCreadoPor"></span></p>
+                    <p><strong>Prioridad:</strong> <span id="detalleTicketPrioridad"></span></p>
+                    <p><strong>Estado:</strong> <span id="detalleTicketEstado"></span></p>
+                    <p><strong>Fecha de Creación:</strong> <span id="detalleTicketFechaCreacion"></span></p>
+                    <p><strong>Fecha de Resolución:</strong> <span id="detalleTicketFechaResolucion"></span></p>
+                    <p><strong>Solución:</strong> <span id="detalleTicketSolucion"></span></p>
+                    <!-- Puedes agregar más detalles según tus necesidades -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="Usuario.js"></script>
 </body>

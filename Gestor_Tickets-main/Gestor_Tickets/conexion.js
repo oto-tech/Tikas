@@ -1,11 +1,10 @@
 const mysql = require('mysql2/promise');
 
 const config = {
-    host: 'localhost',
-    user: 'USUARIO_NE',
-    password: 'CJJe2003--',
-    database: 'GestorTickets2'
-
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'USUARIO_NE',
+    password: process.env.DB_PASSWORD || 'Manager1',
+    database: process.env.DB_NAME || 'GestorTickets2'
 };
 
 // Función para conectar con la base de datos

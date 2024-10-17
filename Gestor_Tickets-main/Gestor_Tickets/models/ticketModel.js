@@ -36,7 +36,7 @@ async function obtenerTodosLosTickets() {
     try {
         connection = await mysql.createConnection(config);
         const [rows] = await connection.execute(
-            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, t.estado, u.nombre AS nombre_usuario ' +
+            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, t.estado, usuario_creador_id, u.nombre AS nombre_usuario ' +
             'FROM Tickets t ' +
             'JOIN Usuarios u ON t.usuario_creador_id = u.usuario_id'
         );
@@ -59,7 +59,7 @@ async function obtenerTodosLosTicketsPendientes() {
     try {
         connection = await mysql.createConnection(config); // Obtener conexión del pool
         const [rows] = await connection.execute(
-            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, u.nombre AS nombre_usuario ' +
+            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, usuario_creador_id, u.nombre AS nombre_usuario ' +
             'FROM Tickets t ' +
             'JOIN Usuarios u ON t.usuario_creador_id = u.usuario_id ' +
             'WHERE t.estado_id = 1' // Solo obtener tickets pendientes
@@ -82,7 +82,7 @@ async function obtenerTodosLosTicketsResueltos() {
     try {
         connection = await mysql.createConnection(config);
         const [rows] = await connection.execute(
-            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, u.nombre AS nombre_usuario ' +
+            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, usuario_creador_id, u.nombre AS nombre_usuario ' +
             'FROM Tickets t ' +
             'JOIN Usuarios u ON t.usuario_creador_id = u.usuario_id ' +
             'WHERE t.estado_id = 2' // Solo obtener tickets resueltos
