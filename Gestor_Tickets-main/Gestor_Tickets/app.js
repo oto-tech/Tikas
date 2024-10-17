@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const conectarDB = require('./conexion'); // Asegúrate de que la ruta sea correcta
 const ticketController = require('./controllers/ticketController');
+const AsignacionController = require('./controllers/AsignacionController');
 const usuarioController = require('./controllers/usuarioController');
 const obtenerUController = require('./controllers/obtenerUController');
 const tecnicoController = require('./controllers/tecnicoController');
@@ -23,6 +24,7 @@ app.use('/usuariosC', obtenerUController); //ruta para obtener los usuarios
 app.use('/tecnico', tecnicoController); // Ruta para tecnicos
 app.use('/tecnicoC', obtenerTController); //ruta para obtener los tecnicos
 
+app.use('/Asignacion', AsignacionController);
 app.use('/crear-ticket', ticketController);
 app.use('/tickets', ticketController);
 app.use('/ticketsP', ticketController);

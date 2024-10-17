@@ -366,4 +366,42 @@ $('#ticketForm').on('submit', function(event) {
     });
 });
 
+$(document).ready(function() {
+    // Manejador para el formulario de asignación de tickets
+    $('#asignarTicketForm').on('submit', function(e) {
+        e.preventDefault(); // Evitar el envío del formulario por defecto
+
+        // Obtener los valores de los campos del formulario
+        const ticketId = $('#ticket_id').val();
+        const agenteAsignadoId = $('#agente_asignado_id').val();
+
+        // Verificar que ambos valores existan
+        if (!ticketId || !agenteAsignadoId) {
+            alert('Por favor, complete ambos campos.');
+            return;
+        }
+
+        // Realizar una solicitud AJAX para actualizar el ticket
+        $.ajax({
+            url: `http://localhost:3000/Asignacion`, // Cambia la URL según tu API
+            method: 'PUT',
+            contentType: 'application/json', // Para enviar datos en formato JSON
+            data: JSON.stringify({
+                ticket_id: ticketId,             // Asegúrate de enviar el ticket_id
+                agente_asignado_id: agenteAsignadoId
+            }),
+            success: function(response) {
+                // Mostrar mensaje de éxito
+                alert('Ticket asignado correctamente');
+                $('#asignarTicketForm')[0].reset(); // Limpiar el formulario después de la asignación
+            },
+            error: function() {
+                console.error('Error al asignar el ticket');
+                alert('Error al asignar el ticket. Verifica el ID del ticket.');
+            }
+        });
+    });
+});
+
+
 });
