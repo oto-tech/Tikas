@@ -367,3 +367,18 @@ h2 {
         padding: 20px;
     }
 }
+
+.modal-content {
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-footer .btn-primary {
+    background-color: #28a745;
+    border-color: #28a745;
+}

@@ -75,7 +75,7 @@ $(document).ready(function () {
                         <td>${usuario.email}</td>
                         <td>${new Date(usuario.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
                         <td>
-                            <button class="btn btn-sm btn-primary" onclick="editarUsuario(${usuario.usuario_id})">Editar</button>
+                            
                             <button class="btn btn-sm btn-danger" onclick="eliminarUsuario(${usuario.usuario_id})">Eliminar</button>
                         </td>
                     </tr>`;
@@ -90,35 +90,61 @@ $(document).ready(function () {
     }
 
 
-//manejar creacion nuevo usuario 
-$('#usuarioForm').on('submit', function(event) {
-    event.preventDefault();
-
-    const nombre = $('#nombre').val();
-    const apellido = $('#apellido').val();
-    const email = $('#email').val();
-    const contrasenia = $('#contrasenia').val();
-
-    $.ajax({
-        url: 'http://localhost:3000/usuarios',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            nombre: nombre,
-            apellido: apellido,
-            email: email,
-            contrasenia: contrasenia
-        }),
-        success: function() {
-            alert('Usuario creado correctamente');
-            $('#crearUsuarioModal').modal('hide');
-        },
-        error: function(xhr, status, error) {
-            console.error('Error al crear el usuarios:', error);
-            alert('Error al crear el usuarioss');
+    $('#usuarioForm').on('submit', function(event) {
+        event.preventDefault();
+    
+        const nombre = $('#nombre').val();
+        const apellido = $('#apellido').val();
+        const email = $('#email').val();
+        const contrasenia = $('#contrasenia').val();
+    
+        // Validar que los campos no estén vacíos
+        if (!nombre || !apellido || !email || !contrasenia) {
+            alert('Por favor, complete todos los campos.');
+            return;
         }
+    
+        // Mostrar el modal de confirmación
+        $('#confirmacionModalUsuario').modal('show');
+    
+        // Si el usuario confirma la creación del nuevo usuario
+        $('#confirmarCreacionUsuario').off('click').on('click', function() {
+            $.ajax({
+                url: 'http://localhost:3000/usuarios', // Asegúrate de que esta URL sea correcta según tu backend
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    nombre: nombre,
+                    apellido: apellido,
+                    email: email,
+                    contrasenia: contrasenia
+                }),
+                success: function(response) {
+                    // Mostrar mensaje de éxito
+                    alert('Usuario creado correctamente');
+    
+                    // Limpiar el formulario solo después de la creación exitosa
+                    $('#usuarioForm')[0].reset();
+    
+                    // Cerrar el modal de confirmación
+                    $('#confirmacionModalUsuario').modal('hide');
+    
+                    // Opcional: Recargar la lista de usuarios si tienes una función para esto
+                    cargarListaUsuarios();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al crear el usuario:', error);
+                    alert('Ocurrió un error al crear el usuario. Inténtelo nuevamente.');
+                }
+            });
+        });
+    
+        // Si el usuario cancela la creación
+        $('#confirmacionModalUsuario .btn-secondary').off('click').on('click', function() {
+            // Cerrar el modal de confirmación sin hacer nada más
+            $('#confirmacionModalUsuario').modal('hide');
+        });
     });
-});
 
     // Cargar la sección de usuarios al inicio
     $('.nav-link[data-section="listaUsuarios"]').trigger('click'); // Cargar usuarios al inicio

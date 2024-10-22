@@ -190,7 +190,7 @@ function cargarListaTicketsResueltos() {
         success: function(response) {
 
             const usuarioID = localStorage.getItem('usuario_id');
-            const tickets = response.tickets.filter(ticket => ticket.usuario_creador_id == usuarioID); // Filtrar por usuario_id
+            const tickets = response.tickets.filter(ticket => ticket.agente_asignado_id == usuarioID); // Filtrar por usuario_id
             const tablaResueltos = $('#tablaTicketsResueltos tbody');
             tablaResueltos.empty(); // Limpiar la tabla antes de insertar nuevos datos
 
@@ -259,48 +259,68 @@ function cargarListaTicketsResueltos() {
 
 
 
-// Manejar la creación de un nuevo ticket
-$('#ticketForm').on('submit', function(event) {
-    event.preventDefault();
-
-    const titulo = $('#titulo').val();
-    const descripcion = $('#descripcion').val();
-    const categoriaId = $('#categoria').val();
+    $('#ticketForm').on('submit', function(event) {
+        event.preventDefault();
     
-    // Validar que los campos no estén vacíos
-    if (!titulo || !descripcion || !categoriaId) {
-        alert('Por favor, complete todos los campos.');
-        return;
-    }
-
-    $.ajax({
-        url: 'http://localhost:3000/tickets', // Asegúrate de que esta URL sea correcta según tu backend
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            titulo: titulo,
-            descripcion: descripcion,
-            categoriaId: categoriaId,
-            usuarioID: usuarioID // Enviar el ID del usuario que está creando el ticket
-        }),
-        success: function(response) {
-            // Mostrar mensaje de éxito
-            alert('Ticket creado correctamente');
-
-            // Limpiar el formulario
-            $('#ticketForm')[0].reset();
-
-            // Cargar la lista de tickets pendientes nuevamente
-            cargarListaTicketsPendientes();
-
-            // Ocultar la sección de creación de tickets y mostrar la tabla de tickets pendientes
-            showSection('pendientes');
-        },
-        error: function(xhr, status, error) {
-            console.error('Error al crear el ticket:', error);
-            alert('Ocurrió un error al crear el ticket. Inténtelo nuevamente.');
+        const titulo = $('#titulo').val();
+        const descripcion = $('#descripcion').val();
+        const categoriaId = $('#categoria').val();
+    
+        // Validar que los campos no estén vacíos
+        if (!titulo || !descripcion || !categoriaId) {
+            alert('Por favor, complete todos los campos.');
+            return;
         }
+    
+        // Mostrar el modal de confirmación
+        $('#confirmacionModal').modal('show');
+    
+        // Si el usuario confirma la creación del ticket
+        $('#confirmarCreacionTicket').off('click').on('click', function() {
+            $.ajax({
+                url: 'http://localhost:3000/tickets', // Asegúrate de que esta URL sea correcta según tu backend
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    titulo: titulo,
+                    descripcion: descripcion,
+                    categoriaId: categoriaId,
+                    usuarioID: usuarioID // Enviar el ID del usuario que está creando el ticket
+                }),
+                success: function(response) {
+                    // Mostrar mensaje de éxito
+                    alert('Ticket creado correctamente');
+
+                  
+    
+                 
+    
+                    // Limpiar el formulario solo después de la creación exitosa
+                    $('#ticketForm')[0].reset();
+                        // Cerrar el modal de confirmación
+                        $('#confirmarCreacionTicket').modal('hide');
+    
+                    // Cargar la lista de tickets pendientes nuevamente
+                    cargarListaTicketsPendientes();
+    
+                    // Ocultar la sección de creación de tickets y mostrar la tabla de tickets pendientes
+                    showSection('pendientes');
+    
+                    // Cerrar el modal
+                    $('#confirmacionModal').modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al crear el ticket:', error);
+                    alert('Ocurrió un error al crear el ticket. Inténtelo nuevamente.');
+                }
+            });
+        });
+    
+        // Si el usuario cancela la creación del ticket
+        $('#confirmacionModal .btn-secondary').off('click').on('click', function() {
+            // Cerrar el modal de confirmación sin hacer nada más
+            $('#confirmacionModal').modal('hide');
+        });
     });
-});
 
 });

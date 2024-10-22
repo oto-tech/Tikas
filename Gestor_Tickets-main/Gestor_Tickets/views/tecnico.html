@@ -8,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesTecnico.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="tecnico.js"></script>
+    <script src="backgraficas2.js"></script>
 </head>
 
 <body>
@@ -37,9 +42,11 @@
                         <i class="fas fa-chart-bar"></i> Historial
                     </a>
                 </li>
-               
-
-                       
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="estadisticas">
+                        <i class="fas fa-chart-pie"></i> Estadísticas
+                    </a>
+                </li>
             </ul>
             <hr>
             <div class="text-center">
@@ -97,6 +104,27 @@
                     </form>
                 </div>
 
+<!-- Modal de confirmación para crear ticket -->
+<div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas crear este ticket?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="confirmarCreacionTicket">Crear Ticket</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
                 <!-- Tickets Pendientes -->
                 <div id="ticketsPendientes" class="content-section d-none">
                     <h2 class="mb-3">Tickets Pendientes</h2>
@@ -124,6 +152,25 @@
                         </table>
                     </div>
                 </div>
+
+<!-- Modal para enviar respuesta -->
+<div class="modal fade" id="enviarRespuestaModal" tabindex="-1" aria-labelledby="enviarRespuestaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="enviarRespuestaModalLabel">Enviar Respuesta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <textarea id="respuestaTextArea" class="form-control" rows="4" placeholder="Escribe tu solución aquí..." required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnEnviarRespuesta">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- Tickets Resueltos -->
                 <div id="ticketsResueltos" class="content-section d-none">
@@ -153,6 +200,7 @@
                         </table>
                     </div>
                 </div>
+
                 <!-- Historial -->
                 <div id="historial" class="content-section d-none">
                     <h2 class="mb-3">Historial de Tickets</h2>
@@ -183,40 +231,53 @@
                     </div>
                 </div>
 
-       
 
-    <!-- Modal Detalles del Ticket -->
-    <div class="modal fade" id="detallesTicketModal" tabindex="-1" aria-labelledby="detallesTicketModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Detalles del Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                
+<!-- Estadísticas -->
+<div id="estadisticas" class="content-section d-none">
+    <h2 class="mb-3">Estadísticas de Tickets</h2>
+    
+    <!-- Contenedor para las gráficas -->
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="graficoBarras"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="graficoPastel"></canvas>
+        </div>
+    </div>
+</div>
+
+                <!-- Modal Detalles del Ticket -->
+                <div class="modal fade" id="detallesTicketModal" tabindex="-1" aria-labelledby="detallesTicketModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Detalles del Ticket</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>ID:</strong> <span id="detalleTicketID"></span></p>
+                                <p><strong>Asunto:</strong> <span id="detalleTicketAsunto"></span></p>
+                                <p><strong>Descripción:</strong> <span id="detalleTicketDescripcion"></span></p>
+                                <p><strong>Creado Por:</strong> <span id="detalleTicketCreador"></span></p>
+                                <p><strong>Estado:</strong> <span id="detalleTicketEstado"></span></p>
+                                <p><strong>Prioridad:</strong> <span id="detalleTicketPrioridad"></span></p>
+                                <p><strong>Fecha de Creación:</strong> <span id="detalleTicketFechaCreacion"></span></p>
+                                <p><strong>Fecha de Resolución:</strong> <span id="detalleTicketFechaResolucion"></span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p><strong>ID:</strong> <span id="detalleTicketID"></span></p>
-                    <p><strong>Asunto:</strong> <span id="detalleTicketAsunto"></span></p>
-                    <p><strong>Descripción:</strong> <span id="detalleTicketDescripcion"></span></p>
-                    <p><strong>Creado Por:</strong> <span id="detalleTicketCreadoPor"></span></p>
-                    <p><strong>Prioridad:</strong> <span id="detalleTicketPrioridad"></span></p>
-                    <p><strong>Estado:</strong> <span id="detalleTicketEstado"></span></p>
-                    <p><strong>Fecha de Creación:</strong> <span id="detalleTicketFechaCreacion"></span></p>
-                    <p><strong>Fecha de Resolución:</strong> <span id="detalleTicketFechaResolucion"></span></p>
-                    <p><strong>Solución:</strong> <span id="detalleTicketSolucion"></span></p>
-                    <!-- Puedes agregar más detalles según tus necesidades -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="tecnico.js"></script>
+    <
 </body>
 
 </html>
-
-

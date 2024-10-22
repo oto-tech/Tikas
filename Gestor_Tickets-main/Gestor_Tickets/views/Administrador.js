@@ -127,6 +127,52 @@ $(document).ready(function() {
         });
     }
 
+    // Función para cargar la lista de Tickets Pendientes
+function cargarListaTicketsPendientes() {
+    $.ajax({
+        url: 'http://localhost:3000/tickets/ticketsP', // Llamar al endpoint de tickets pendientes
+        method: 'GET',
+        success: function(response) {
+            const tickets = response.tickets.filter(ticket => ticket.prioridad_id == 3); 
+            const tablaPendientes = $('#tablaMisPendientes tbody');
+            tablaPendientes.empty(); // Limpiar la tabla antes de insertar nuevos datos
+
+            if (tickets.length === 0) {
+                tablaPendientes.append(`
+                    <tr>
+                        <td colspan="7" class="text-center">No hay tickets pendientes.</td>
+                    </tr>
+                `);
+                return;
+            }
+
+            tickets.forEach(ticket => {
+                tablaPendientes.append(`
+                    <tr>
+                        <td>${ticket.ticket_id}</td>
+                        <td>${ticket.asunto}</td>
+                        <td>${ticket.descripcion}</td>
+                        <td>${ticket.nombre_usuario}</td>
+                        <td>${obtenerPrioridad(ticket.prioridad_id)}</td>
+                        <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
+                        <td>
+                            <!-- Botones de acción -->
+                            <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}">Ver</button>
+                            
+                        </td>
+                    </tr>
+                `);
+            });
+        },
+        error: function() {
+            console.error('Error al obtener los tickets pendientes');
+            showAlert('ticketsPendientesAlert', 'Error al cargar los tickets pendientes.', 'danger');
+        }
+    });
+}
+
+    
+
     // Función para cargar la lista de tickets en el Historial
     function cargarListaTicketsHistorial() {
         $.ajax({
@@ -204,7 +250,7 @@ function cargarListaTicketsPendientes() {
                         <td>
                             <!-- Botones de acción -->
                             <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}">Ver</button>
-                            <button class="btn btn-sm btn-warning escalar-ticket" data-ticket-id="${ticket.ticket_id}" data-prioridad="3">Escalar</button>
+                            
                         </td>
                     </tr>
                 `);
@@ -322,49 +368,69 @@ function cargarListaTicketsResueltos() {
         });
     });
 
-  // Manejar la creación de un nuevo ticket
-$('#ticketForm').on('submit', function(event) {
-    event.preventDefault();
-
-    const titulo = $('#titulo').val();
-    const descripcion = $('#descripcion').val();
-    const categoriaId = $('#categoria').val();
+    $('#ticketForm').on('submit', function(event) {
+        event.preventDefault();
     
-    // Validar que los campos no estén vacíos
-    if (!titulo || !descripcion || !categoriaId) {
-        alert('Por favor, complete todos los campos.');
-        return;
-    }
-
-    $.ajax({
-        url: 'http://localhost:3000/tickets', // Asegúrate de que esta URL sea correcta según tu backend
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            titulo: titulo,
-            descripcion: descripcion,
-            categoriaId: categoriaId,
-            usuarioID: usuarioID // Enviar el ID del usuario que está creando el ticket
-        }),
-        success: function(response) {
-            // Mostrar mensaje de éxito
-            alert('Ticket creado correctamente');
-
-            // Limpiar el formulario
-            $('#ticketForm')[0].reset();
-
-            // Cargar la lista de tickets pendientes nuevamente
-            cargarListaTicketsPendientes();
-
-            // Ocultar la sección de creación de tickets y mostrar la tabla de tickets pendientes
-            showSection('pendientes');
-        },
-        error: function(xhr, status, error) {
-            console.error('Error al crear el ticket:', error);
-            alert('Ocurrió un error al crear el ticket. Inténtelo nuevamente.');
+        const titulo = $('#titulo').val();
+        const descripcion = $('#descripcion').val();
+        const categoriaId = $('#categoria').val();
+    
+        // Validar que los campos no estén vacíos
+        if (!titulo || !descripcion || !categoriaId) {
+            alert('Por favor, complete todos los campos.');
+            return;
         }
+    
+        // Mostrar el modal de confirmación
+        $('#confirmacionModal').modal('show');
+    
+        // Si el usuario confirma la creación del ticket
+        $('#confirmarCreacionTicket').off('click').on('click', function() {
+            $.ajax({
+                url: 'http://localhost:3000/tickets', // Asegúrate de que esta URL sea correcta según tu backend
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    titulo: titulo,
+                    descripcion: descripcion,
+                    categoriaId: categoriaId,
+                    usuarioID: usuarioID // Enviar el ID del usuario que está creando el ticket
+                }),
+                success: function(response) {
+                    // Mostrar mensaje de éxito
+                    alert('Ticket creado correctamente');
+
+                  
+    
+                 
+    
+                    // Limpiar el formulario solo después de la creación exitosa
+                    $('#ticketForm')[0].reset();
+                        // Cerrar el modal de confirmación
+                        $('#confirmarCreacionTicket').modal('hide');
+    
+                    // Cargar la lista de tickets pendientes nuevamente
+                    cargarListaTicketsPendientes();
+    
+                    // Ocultar la sección de creación de tickets y mostrar la tabla de tickets pendientes
+                    showSection('pendientes');
+    
+                    // Cerrar el modal
+                    $('#confirmacionModal').modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al crear el ticket:', error);
+                    alert('Ocurrió un error al crear el ticket. Inténtelo nuevamente.');
+                }
+            });
+        });
+    
+        // Si el usuario cancela la creación del ticket
+        $('#confirmacionModal .btn-secondary').off('click').on('click', function() {
+            // Cerrar el modal de confirmación sin hacer nada más
+            $('#confirmacionModal').modal('hide');
+        });
     });
-});
 
 $(document).ready(function() {
     // Manejador para el formulario de asignación de tickets

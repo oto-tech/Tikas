@@ -23,6 +23,11 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="MisTicket">
+                        <i class="fas fa-plus-circle"></i> Mis tickets
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link" data-section="crearTicket">
                         <i class="fas fa-plus-circle"></i> Crear Ticket
                     </a>
@@ -45,6 +50,11 @@
                 <li>
                     <a href="#" class="nav-link" data-section="historial">
                         <i class="fas fa-chart-bar"></i> Historial
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="Estadisticas">
+                        <i class="fas fa-plus-circle"></i> Estadisticas
                     </a>
                 </li>
                
@@ -98,6 +108,34 @@
                     </div>
                 </div>
 
+                <!-- Mis tickets -->
+                <div id="MisTicket" class="content-section d-none">
+                    <h2 class="mb-3">MisTicket</h2>
+                    
+                    <!-- Contenedor para mensajes de alerta -->
+                    <div id="ticketsPendientesAlert"></div>
+                    
+                    <!-- Tabla para mostrar los tickets pendientes -->
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="tablaMisPendientes">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Descripción</th>
+                                    <th>Creado Por</th>
+                                    <th>Prioridad</th>
+                                    <th>Fecha de Creación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas de tickets pendientes se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <!-- Crear Ticket -->
                 <div id="crearTicket" class="content-section d-none">
                     <h2 class="mb-3">Crear Nuevo Ticket</h2>
@@ -125,6 +163,28 @@
                         <button type="submit" id="btnCrearTicket" class="btn btn-primary">Crear Ticket</button>
                     </form>
                 </div>
+
+                
+<!-- Modal de confirmación para crear ticket -->
+<div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas crear este ticket?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="confirmarCreacionTicket">Crear Ticket</button>
+      </div>
+    </div>
+  </div>
+</div>
 
                 <!-- Tickets Pendientes -->
                 <div id="ticketsPendientes" class="content-section d-none">
@@ -234,6 +294,35 @@
                 </div>
 
 
+<!-- Estadísticas -->
+<div id="Estadisticas" class="content-section d-none">
+    <h2 class="mb-3">Estadísticas de Tickets</h2>
+    
+    <!-- Contenedor para las gráficas -->
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="graficoBarras"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="graficoPastel"></canvas>
+        </div>
+    </div>
+</div>
+
+                <!-- Estadísticas -->
+                <div id="estadisticas" class="content-section d-none">
+                    <h2 class="mb-3">Estadísticas de Tickets</h2>
+                    
+                    <!-- Contenedor para las gráficas -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <canvas id="graficoBarras"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="graficoPastel"></canvas>
+                        </div>
+                    </div>
+                </div>
                 
              <!-- Crear Usuario -->
 <div id="crearUsuario" class="content-section d-none">
@@ -262,7 +351,29 @@
         <button type="submit" id="btnCrearUsuario" class="btn btn-primary">Crear Usuario</button>
     </form>
 </div>
-                
+
+
+
+<!-- Modal de confirmación para crear usuario -->
+<div class="modal fade" id="confirmacionModalUsuario" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmacionModalUsuarioLabel">Confirmación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas crear este usuario?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="confirmarCreacionUsuario">Crear Usuario</button>
+        </div>
+      </div>
+    </div>
+  </div>   
 
 
                 <!-- Crear Técnico -->
@@ -292,6 +403,26 @@
                         <button type="submit" id="btnCrearTecnico" class="btn btn-primary">Crear Técnico</button>
                     </form>
                 </div>
+
+<div class="modal fade" id="confirmacionTecnicoModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionTecnicoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmacionTecnicoModalLabel">Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas crear este técnico?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="confirmarCreacionTecnico">Crear Técnico</button>
+      </div>
+    </div>
+  </div>
+</div>
 
                 <!-- Nuevas secciones añadidas -->
                 <!-- Lista de Usuarios -->
@@ -388,5 +519,6 @@
     <script src="Administrador.js"></script>
     <script src="backusuarios.js"></script>
     <script src="backtecnicos.js"></script>
+    <script src="backgraficas.js"></script>
 </html>
 

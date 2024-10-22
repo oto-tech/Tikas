@@ -45,31 +45,58 @@ $(document).ready(function () {
     }
 
 
-     // Manejar creación nuevo técnico
-     $('#crearTecnico').on('submit', function(event) {
+    $('#crearTecnico').on('submit', function(event) {
         event.preventDefault();
+    
         const nombreTecnico = $('#nombreTecnico').val();
         const apellidoTecnico = $('#apellidoTecnico').val();
         const emailTecnico = $('#emailTecnico').val();
         const contraseniaTecnico = $('#contraseniaTecnico').val();
-        $.ajax({
-            url: 'http://localhost:3000/tecnico',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                nombreTecnico: nombreTecnico,
-                apellidoTecnico: apellidoTecnico,
-                emailTecnico: emailTecnico,
-                contraseniaTecnico: contraseniaTecnico,
-            }),
-            success: function(response) {
-                alert('Técnico creado correctamente');
-                $('#crearTecnicoModal').modal('hide'); // Asegúrate de que el ID del modal sea correcto
-            },
-            error: function(xhr, status, error) {
-                console.error('Error al crear el técnico:', error);
-                alert('Error al crear el técnico: ' + xhr.responseText); // Muestra el mensaje de error del servidor
-            }
+    
+        // Validar que los campos no estén vacíos
+        if (!nombreTecnico || !apellidoTecnico || !emailTecnico || !contraseniaTecnico) {
+            alert('Por favor, complete todos los campos.');
+            return;
+        }
+    
+        // Mostrar el modal de confirmación
+        $('#confirmacionTecnicoModal').modal('show');
+    
+        // Si el usuario confirma la creación del técnico
+        $('#confirmarCreacionTecnico').off('click').on('click', function() {
+            $.ajax({
+                url: 'http://localhost:3000/tecnico', // Asegúrate de que esta URL sea correcta según tu backend
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    nombreTecnico: nombreTecnico,
+                    apellidoTecnico: apellidoTecnico,
+                    emailTecnico: emailTecnico,
+                    contraseniaTecnico: contraseniaTecnico,
+                }),
+                success: function(response) {
+                    alert('Técnico creado correctamente');
+                    $('#crearTecnicoModal').modal('hide'); // Ocultar el modal de creación de técnico
+                    $('#crearTecnico')[0].reset(); // Limpiar el formulario después de la creación
+                    $('#confirmacionTecnicoModal').modal('hide'); // Cerrar el modal de confirmación
+
+                     // Limpiar el formulario solo después de la creación exitosa
+                     $('#crearTecnico')[0].reset();
+    
+                     // Cerrar el modal de confirmación
+                     $('#confirmacionTecnicoModal').modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al crear el técnico:', error);
+                    alert('Error al crear el técnico: ' + xhr.responseText); // Mostrar el mensaje de error del servidor
+                }
+            });
+        });
+    
+        // Si el usuario cancela la creación del técnico
+        $('#confirmacionTecnicoModal .btn-secondary').off('click').on('click', function() {
+            // Cerrar el modal de confirmación sin hacer nada más
+            $('#confirmacionTecnicoModal').modal('hide');
         });
     });
 
@@ -102,7 +129,7 @@ $(document).ready(function () {
                         <td>${tecnico.email}</td>
                         <td>${new Date(tecnico.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
                         <td>
-                            <button class="btn btn-sm btn-primary" onclick="editarTecnico(${tecnico.tecnico_id})">Editar</button>
+                            
                             <button class="btn btn-sm btn-danger" onclick="eliminarTecnico(${tecnico.tecnico_id})">Eliminar</button>
                         </td>
                     </tr>`;

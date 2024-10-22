@@ -8,6 +8,7 @@ const usuarioController = require('./controllers/usuarioController');
 const obtenerUController = require('./controllers/obtenerUController');
 const tecnicoController = require('./controllers/tecnicoController');
 const obtenerTController = require('./controllers/obtenerTController');
+const respuestaController = require('./controllers/respuestaController');
 
 const app = express();
 const PORT = 3000;
@@ -23,6 +24,7 @@ app.use('/usuariosC', obtenerUController); //ruta para obtener los usuarios
 
 app.use('/tecnico', tecnicoController); // Ruta para tecnicos
 app.use('/tecnicoC', obtenerTController); //ruta para obtener los tecnicos
+app.use('/respuesta', respuestaController);
 
 app.use('/Asignacion', AsignacionController);
 app.use('/crear-ticket', ticketController);
