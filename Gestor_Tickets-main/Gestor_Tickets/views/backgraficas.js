@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Referencia a las secciones de contenido
-    const estadisticasSection = document.getElementById('Estadisticas');
+    const estadisticasSection = document.getElementById('estadistic'); // Cambiado a 'estadistic'
 
-    // Datos simulados de los tickets por categoría (Soporte General, Problemas Técnicos, Solicitud de Mejora)
+    // Datos simulados de los tickets por categoría
     const ticketData = {
-        soporteGeneral: 10,  // Número de tickets de Soporte General
-        problemasTecnicos: 20,  // Número de tickets de Problemas Técnicos
-        solicitudMejora: 15  // Número de tickets de Solicitud de Mejora
+        soporteGeneral: 10,
+        problemasTecnicos: 20,
+        solicitudMejora: 15
     };
 
     // Función para mostrar las gráficas al seleccionar "Estadísticas"
@@ -14,8 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', function () {
             const section = this.getAttribute('data-section');
             
-            if (section === 'Estadisticas') {
+            if (section === 'estadistic') { // Asegúrate de que coincida con el data-section correcto
                 estadisticasSection.classList.remove('d-none');
+                console.log(ticketData); // Agregar log para verificar datos
                 generarGraficas(ticketData);
             } else {
                 estadisticasSection.classList.add('d-none');
@@ -26,42 +27,52 @@ document.addEventListener('DOMContentLoaded', function () {
     // Función para generar las gráficas
     function generarGraficas(data) {
         // Gráfico de barras
-        const ctxBarras = document.getElementById('graficoBarras').getContext('2d');
-        new Chart(ctxBarras, {
-            type: 'bar',
-            data: {
-                labels: ['Soporte General', 'Problemas Técnicos', 'Solicitud de Mejora'],
-                datasets: [{
-                    label: 'Número de Tickets',
-                    data: [data.soporteGeneral, data.problemasTecnicos, data.solicitudMejora],
-                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71']
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
+        const ctxBarras = document.getElementById('graficoBarr');
+        if (ctxBarras) {
+            const ctxBarrasContext = ctxBarras.getContext('2d');
+            new Chart(ctxBarrasContext, {
+                type: 'bar',
+                data: {
+                    labels: ['Soporte General', 'Problemas Técnicos', 'Solicitud de Mejora'],
+                    datasets: [{
+                        label: 'Número de Tickets',
+                        data: [data.soporteGeneral, data.problemasTecnicos, data.solicitudMejora],
+                        backgroundColor: ['#3498db', '#e74c3c', '#2ecc71']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            console.error("No se encontró el elemento 'graficoBarr'");
+        }
 
         // Gráfico de pastel
-        const ctxPastel = document.getElementById('graficoPastel').getContext('2d');
-        new Chart(ctxPastel, {
-            type: 'pie',
-            data: {
-                labels: ['Soporte General', 'Problemas Técnicos', 'Solicitud de Mejora'],
-                datasets: [{
-                    label: 'Distribución de Tickets',
-                    data: [data.soporteGeneral, data.problemasTecnicos, data.solicitudMejora],
-                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71']
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
+        const ctxPastel = document.getElementById('graficoPast');
+        if (ctxPastel) {
+            const ctxPastelContext = ctxPastel.getContext('2d');
+            new Chart(ctxPastelContext, {
+                type: 'pie',
+                data: {
+                    labels: ['Soporte General', 'Problemas Técnicos', 'Solicitud de Mejora'],
+                    datasets: [{
+                        label: 'Distribución de Tickets',
+                        data: [data.soporteGeneral, data.problemasTecnicos, data.solicitudMejora],
+                        backgroundColor: ['#3498db', '#e74c3c', '#2ecc71']
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        } else {
+            console.error("No se encontró el elemento 'graficoPast'");
+        }
     }
 });

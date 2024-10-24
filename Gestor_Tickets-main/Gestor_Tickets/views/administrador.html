@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="Estadisticas">
+                    <a href="#" class="nav-link" data-section="estadistic">
                         <i class="fas fa-plus-circle"></i> Estadisticas
                     </a>
                 </li>
@@ -108,14 +108,9 @@
                     </div>
                 </div>
 
-                <!-- Mis tickets -->
                 <div id="MisTicket" class="content-section d-none">
-                    <h2 class="mb-3">MisTicket</h2>
-                    
-                    <!-- Contenedor para mensajes de alerta -->
+                    <h2 class="mb-3">Mis Tickets</h2>
                     <div id="ticketsPendientesAlert"></div>
-                    
-                    <!-- Tabla para mostrar los tickets pendientes -->
                     <div class="table-responsive">
                         <table class="table table-striped" id="tablaMisPendientes">
                             <thead>
@@ -130,11 +125,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Las filas de tickets pendientes se insertarán aquí dinámicamente -->
+                                <!-- Las filas de tickets se insertarán aquí dinámicamente -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+<!-- Modal para enviar respuesta -->
+<div class="modal fade" id="enviarRespuestaModal" tabindex="-1" aria-labelledby="enviarRespuestaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="enviarRespuestaModalLabel">Enviar Respuesta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <textarea id="respuestaTextArea" class="form-control" rows="4" placeholder="Escribe tu solución aquí..." required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnEnviarRespuesta">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- Crear Ticket -->
                 <div id="crearTicket" class="content-section d-none">
@@ -213,6 +227,8 @@
                         </table>
                     </div>
                 </div>
+
+                
 
                 <!-- Tickets Resueltos -->
                 <div id="ticketsResueltos" class="content-section d-none">
@@ -293,38 +309,22 @@
                     </form>
                 </div>
 
-
 <!-- Estadísticas -->
-<div id="Estadisticas" class="content-section d-none">
+<div id="estadistic" class="content-section d-none">
     <h2 class="mb-3">Estadísticas de Tickets</h2>
     
     <!-- Contenedor para las gráficas -->
     <div class="row">
         <div class="col-md-6">
-            <canvas id="graficoBarras"></canvas>
+            <canvas id="graficoBarr"></canvas>
         </div>
         <div class="col-md-6">
-            <canvas id="graficoPastel"></canvas>
+            <canvas id="graficoPast"></canvas>
         </div>
     </div>
 </div>
-
-                <!-- Estadísticas -->
-                <div id="estadisticas" class="content-section d-none">
-                    <h2 class="mb-3">Estadísticas de Tickets</h2>
-                    
-                    <!-- Contenedor para las gráficas -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <canvas id="graficoBarras"></canvas>
-                        </div>
-                        <div class="col-md-6">
-                            <canvas id="graficoPastel"></canvas>
-                        </div>
-                    </div>
-                </div>
                 
-             <!-- Crear Usuario -->
+<!-- Crear Usuario -->
 <div id="crearUsuario" class="content-section d-none">
     <h2 class="mb-3">Crear Nuevo Usuario</h2>
     
@@ -375,6 +375,25 @@
     </div>
   </div>   
 
+
+  <!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmarEliminacionModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro de que desea eliminar este usuario? Esta acción no se puede deshacer.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmarEliminacion">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- Crear Técnico -->
                 <div id="crearTecnico" class="content-section d-none">
@@ -520,5 +539,7 @@
     <script src="backusuarios.js"></script>
     <script src="backtecnicos.js"></script>
     <script src="backgraficas.js"></script>
+    <script src="path/to/bootstrap.bundle.js"></script>
+    <script src="prueba.js"></script>
 </html>
 

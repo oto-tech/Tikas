@@ -1,0 +1,128 @@
+$(document).ready(function() {
+    // Obtener y mostrar el nombre del usuario desde localStorage
+    const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Administrador';
+    $('#nombreUsuario').text(nombreUsuario);
+    const usuarioID = localStorage.getItem('usuario_id');
+
+    // Función para mostrar la sección seleccionada
+    function showSection(sectionId) {
+        $('.content-section').addClass('d-none'); // Ocultar todas las secciones
+        $('#' + sectionId).removeClass('d-none'); // Mostrar la sección seleccionada
+        $('.nav-link').removeClass('active'); // Quitar clase active de todos los enlaces
+        $('.nav-link[data-section="' + sectionId + '"]').addClass('active'); // Añadir clase active al enlace seleccionado
+
+        // Si la sección es 'MisTicket', cargar los tickets pendientes del usuario
+        if (sectionId === 'MisTicket') {
+            cargarListaMisTicketsPendientes(); // Cargar todos los tickets
+        }
+    }
+
+    // Evento al hacer clic en un enlace del sidebar
+    $('.nav-link').click(function(e) {
+        e.preventDefault();
+        var section = $(this).data('section');
+        if (section) {
+            showSection(section);
+        }
+    });
+
+    // Mostrar el dashboard por defecto al cargar la página
+    showSection('dashboard');
+
+    // Función para mostrar mensajes de alerta utilizando Bootstrap
+    function showAlert(containerId, message, type = 'success') {
+        const alertHtml = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        `;
+        $(`#${containerId}`).html(alertHtml);
+
+        // Opcional: Auto cerrar la alerta después de 3 segundos
+        setTimeout(() => {
+            $(`#${containerId} .alert`).alert('close');
+        }, 3000);
+    }
+
+    // Función para obtener el nombre de la prioridad basado en el ID
+    function obtenerPrioridad(prioridadId) {
+        switch(prioridadId) {
+            case 1:
+                return 'Baja';
+            case 2:
+                return 'Media';
+            case 3:
+                return 'Alta';
+            default:
+                return 'Desconocida';
+        }
+    }
+
+    // Función para obtener el estado basado en el ID
+    function obtenerEstado(estadoId) {
+        switch(estadoId) {
+            case 1:
+                return 'Abierto';
+            case 2:
+                return 'Resuelto';
+            default:
+                return 'Desconocido';
+        }
+    }
+
+    // Función para formatear la fecha
+    function formatearFecha(fecha) {
+        const date = new Date(fecha);
+        return date.toLocaleString(); // Puedes personalizar el formato según tus preferencias
+    }
+
+    // -----------------------------
+    // Funcionalidades de Tickets
+    // -----------------------------
+
+ // Función para cargar todos los tickets
+function cargarListaMisTicketsPendientes() {
+    const usuarioID = localStorage.getItem('usuario_id'); // Asegúrate de obtener el ID del usuario si es necesario
+    $.ajax({
+        url: `http://localhost:3000/misTickets?usuario_id=${usuarioID}`, // Si es necesario incluir el ID
+        method: 'GET',
+        success: function(response) {
+            const tickets = response.tickets || []; // Manejar casos donde no hay tickets
+            const tablaMisPendientes = $('#tablaMisPendientes tbody');
+            tablaMisPendientes.empty(); // Limpiar la tabla antes de insertar nuevos datos
+
+            if (tickets.length === 0) {
+                tablaMisPendientes.append(`
+                    <tr>
+                        <td colspan="8" class="text-center">No hay tickets disponibles.</td>
+                    </tr>
+                `);
+                return;
+            }
+
+            tickets.forEach(ticket => {
+                tablaMisPendientes.append(`
+                    <tr>
+                        <td>${ticket.ticket_id}</td>
+                        <td>${ticket.asunto}</td>
+                        <td>${ticket.descripcion}</td>
+                        <td>${ticket.nombre_usuario}</td>
+                        <td>${obtenerPrioridad(ticket.prioridad_id)}</td>
+                        <td>${obtenerEstado(ticket.estado)}</td>
+                        <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td>
+                        <td>${ticket.fecha_resolucion ? formatearFecha(ticket.fecha_resolucion) : 'N/A'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}">Ver</button>
+                        </td>
+                    </tr>
+                `);
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error al obtener los tickets', textStatus, errorThrown);
+            showAlert('ticketsPendientesAlert', 'Error al cargar los tickets.', 'danger');
+        }
+    });
+}
+});

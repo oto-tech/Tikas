@@ -56,27 +56,16 @@ router.get('/ticketsR', async (req, res) => {
     }
 });
 
-
-
-// Ruta para escalar un ticket
-router.post('/escalar-ticket', async (req, res) => {
-    const { ticketID, nuevoPrioridadID, motivo, agenteResponsableID } = req.body;
-
-    if (!ticketID || !nuevoPrioridadID || !motivo || !agenteResponsableID) {
-        return res.status(400).send('Faltan datos necesarios para escalar el ticket');
-    }
-
+// Ruta para obtener todos mis tickets resueltos
+router.get('/ticketsM', async (req, res) => {
     try {
-        const escalado = await ticketModel.escalarTicket(ticketID, nuevoPrioridadID, motivo, agenteResponsableID);
-        if (escalado) {
-            res.status(200).send('Ticket escalado correctamente');
-        } else {
-            res.status(500).send('Error al escalar el ticket');
-        }
+        const tickets = await ticketModel.obtenerMisPendientes();
+        res.json({ tickets });
     } catch (error) {
-        console.error('Error al escalar el ticket:', error.message);
-        res.status(500).send('Error al escalar el ticket');
+        console.error('Error al obtener tickets resueltos:', error.message);
+        res.status(500).send('Error en el servidor');
     }
 });
+
 
 module.exports = router;

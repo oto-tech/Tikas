@@ -35,7 +35,7 @@ async function obtenerTodosLosTickets() {
     try {
         connection = await mysql.createConnection(config);
         const [rows] = await connection.execute(
-            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, t.estado, usuario_creador_id,agente_asignado_id, u.nombre AS nombre_usuario ' +
+            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, t.estado, usuario_creador_id,agente_asignado_id, solucion, u.nombre AS nombre_usuario ' +
             'FROM Tickets t ' +
             'JOIN Usuarios u ON t.usuario_creador_id = u.usuario_id'
         );
@@ -58,7 +58,7 @@ async function obtenerTodosLosTicketsPendientes() {
     try {
         connection = await mysql.createConnection(config); // Obtener conexión del pool
         const [rows] = await connection.execute(
-            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, usuario_creador_id, agente_asignado_id, u.nombre AS nombre_usuario ' +
+            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, usuario_creador_id, agente_asignado_id, solucion, u.nombre AS nombre_usuario ' +
             'FROM Tickets t ' +
             'JOIN Usuarios u ON t.usuario_creador_id = u.usuario_id ' +
             'WHERE t.estado_id = 1' // Solo obtener tickets pendientes
@@ -74,6 +74,30 @@ async function obtenerTodosLosTicketsPendientes() {
     }
 }
 
+// Función para obtener todos los tickets pendientes
+async function obtenerMisPendientes() {
+    let connection;
+
+    try {
+        connection = await mysql.createConnection(config); // Obtener conexión del pool
+        const [rows] = await connection.execute(
+            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, usuario_creador_id, agente_asignado_id, solucion, u.nombre AS nombre_usuario ' +
+            'FROM Tickets t ' +
+            'JOIN Usuarios u ON t.usuario_creador_id = u.usuario_id ' +
+            'WHERE t.prioridad_id = 3 AND t.estado_id = 1' // Solo obtener tickets pendientes
+        );
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener tickets pendientes:', error.message);
+        return [];
+    } finally {
+        if (connection) {
+            await connection.end();
+        }
+    }
+}
+
+
 // Función para obtener todos los tickets resueltos
 async function obtenerTodosLosTicketsResueltos() {
     let connection;
@@ -81,7 +105,7 @@ async function obtenerTodosLosTicketsResueltos() {
     try {
         connection = await mysql.createConnection(config);
         const [rows] = await connection.execute(
-            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, usuario_creador_id, agente_asignado_id,  u.nombre AS nombre_usuario ' +
+            'SELECT t.ticket_id, t.asunto, t.descripcion, t.prioridad_id, t.fecha_creacion, usuario_creador_id, agente_asignado_id, solucion,  u.nombre AS nombre_usuario ' +
             'FROM Tickets t ' +
             'JOIN Usuarios u ON t.usuario_creador_id = u.usuario_id ' +
             'WHERE t.estado_id = 2' // Solo obtener tickets resueltos
@@ -98,35 +122,12 @@ async function obtenerTodosLosTicketsResueltos() {
 }
 
 
-
-// Función para escalar un ticket
-async function escalarTicket(ticketID, nuevoPrioridadID, motivo, agenteResponsableID) {
-    let connection;
-
-    try {
-        connection = await mysql.createConnection(config);
-        // Asegúrate de definir la lógica para el procedimiento almacenado en MySQL si es necesario
-        await connection.execute(
-            'CALL escalamiento_ticket(?, ?, ?, ?)', // Cambia esto si usas un procedimiento almacenado con un nombre diferente
-            [ticketID, nuevoPrioridadID, motivo, agenteResponsableID]
-        );
-        return true;
-    } catch (error) {
-        console.error('Error al escalar el ticket:', error.message);
-        return false;
-    } finally {
-        if (connection) {
-            await connection.end();
-        }
-    }
-}
-
 module.exports = {
     crearTicket,
     obtenerTodosLosTickets,
     obtenerTodosLosTicketsPendientes,
-    obtenerTodosLosTicketsResueltos,
-    escalarTicket
+    obtenerMisPendientes,
+    obtenerTodosLosTicketsResueltos
 };
 
 

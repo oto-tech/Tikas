@@ -13,9 +13,10 @@ $(document).ready(function () {
         // Cargar usuarios o técnicos según la sección
         if (sectionId === 'listaUsuarios') {
             cargarUsuarios();
-        }
+            }
     }
 
+    
     // Evento al hacer clic en un enlace del sidebar
     $('.nav-link').click(function (e) {
         e.preventDefault();
@@ -44,50 +45,86 @@ $(document).ready(function () {
         }, 3000);
     }
 
-    // Función para cargar usuarios
-    function cargarUsuarios() {
+// Variable global para almacenar el ID del usuario a eliminar
+let usuarioIdEliminar = null;
+
+// Función para cargar usuarios
+function cargarUsuarios() {
+    $.ajax({
+        url: 'http://localhost:3000/usuariosC', // Asegúrate de que este endpoint exista en tu backend
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            const usuarios = response; // Asumimos que la respuesta es un array de usuarios
+            const tbody = $('#tablaUsuarios tbody');
+            tbody.empty(); // Limpiar la tabla antes de llenarla
+
+            // Verificar si hay usuarios
+            if (!Array.isArray(usuarios) || usuarios.length === 0) {
+                tbody.append(`
+                    <tr>
+                        <td colspan="6" class="text-center">No hay usuarios disponibles.</td>
+                    </tr>
+                `);
+                return; // Salir de la función si no hay usuarios
+            }
+
+            // Iterar sobre cada usuario y agregarlo a la tabla
+            usuarios.forEach(function (usuario) {
+                const fila = `<tr>
+                    <td>${usuario.usuario_id}</td>
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.apellido}</td>
+                    <td>${usuario.email}</td>
+                    <td>${new Date(usuario.fecha_creacion).toLocaleString()}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" data-usuario-id="${usuario.usuario_id}" data-bs-toggle="modal" data-bs-target="#confirmarEliminacionModal">Eliminar</button>
+                    </td>
+                </tr>`;
+                tbody.append(fila); // Agregar la fila a la tabla
+            });
+        },
+        error: function (xhr) {
+            console.error('Error al cargar los usuarios:', xhr);
+            $('#listaUsuariosAlert').html('<div class="alert alert-danger">Error al cargar los usuarios: ' + xhr.responseText + '</div>');
+        }
+    });
+}
+
+// Evento para abrir el modal de confirmación
+$(document).on('click', '.btn-danger', function () {
+    usuarioIdEliminar = $(this).data('usuario-id'); // Obtener el ID del usuario
+    $('#confirmarEliminacionModal').modal('show'); // Mostrar el modal
+});
+
+// Lógica para manejar la confirmación de eliminación
+$(document).on('click', '#confirmarEliminacion', function () {
+    if (usuarioIdEliminar) {
         $.ajax({
-            url: 'http://localhost:3000/usuariosC', // Asegúrate de que este endpoint exista en tu backend
-            method: 'GET',
-            dataType: 'json',
+            url: 'http://localhost:3000/eliminar', // Asegúrate de que este endpoint exista
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ usuario_id: usuario_id }), // Enviar el ticket_id en formato JSON
             success: function (response) {
-                const usuarios = response; // Asumimos que la respuesta es un array de usuarios
-                const tbody = $('#tablaUsuarios tbody');
-                tbody.empty(); // Limpiar la tabla antes de llenarla
-
-                // Verificar si hay usuarios
-                if (!Array.isArray(usuarios) || usuarios.length === 0) {
-                    tbody.append(`
-                        <tr>
-                            <td colspan="6" class="text-center">No hay usuarios disponibles.</td>
-                        </tr>
-                    `);
-                    $('#listaUsuariosAlert').html('<div class="alert alert-warning">No hay usuarios disponibles.</div>'); // Añadir un mensaje de alerta
-                    return; // Salir de la función si no hay usuarios
-                }
-
-                // Iterar sobre cada usuario y agregarlo a la tabla
-                usuarios.forEach(function (usuario) {
-                    const fila = `<tr>
-                        <td>${usuario.usuario_id}</td>
-                        <td>${usuario.nombre}</td>
-                        <td>${usuario.apellido}</td>
-                        <td>${usuario.email}</td>
-                        <td>${new Date(usuario.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
-                        <td>
-                            
-                            <button class="btn btn-sm btn-danger" onclick="eliminarUsuario(${usuario.usuario_id})">Eliminar</button>
-                        </td>
-                    </tr>`;
-                    tbody.append(fila); // Agregar la fila a la tabla
-                });
+                alert('Usuario eliminado correctamente');
+                $('#confirmarEliminacionModal').modal('hide'); // Cerrar el modal
+                cargarUsuarios(); // Recargar la lista de usuarios
             },
             error: function (xhr) {
-                console.error('Error al cargar los usuarios:', xhr);
-                $('#listaUsuariosAlert').html('<div class="alert alert-danger">Error al cargar los usuarios: ' + xhr.responseText + '</div>');
+                console.error('Error al eliminar el usuario:', xhr);
+                alert('Error al eliminar el usuario: ' + xhr.responseText);
             }
+
+          
         });
     }
+});
+
+
+
+
+
+
 
 
     $('#usuarioForm').on('submit', function(event) {

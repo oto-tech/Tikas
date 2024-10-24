@@ -9,6 +9,9 @@ const obtenerUController = require('./controllers/obtenerUController');
 const tecnicoController = require('./controllers/tecnicoController');
 const obtenerTController = require('./controllers/obtenerTController');
 const respuestaController = require('./controllers/respuestaController');
+const escalarController = require('./controllers/escalarController');
+const solucionController = require('./controllers/solucionController');
+const eliminacionController = require('./controllers/eliminacionController');
 
 const app = express();
 const PORT = 3000;
@@ -25,12 +28,16 @@ app.use('/usuariosC', obtenerUController); //ruta para obtener los usuarios
 app.use('/tecnico', tecnicoController); // Ruta para tecnicos
 app.use('/tecnicoC', obtenerTController); //ruta para obtener los tecnicos
 app.use('/respuesta', respuestaController);
+app.use('/escalar', escalarController);
+app.use('/solucion', solucionController);
+app.use('/eliminar', eliminacionController);
 
 app.use('/Asignacion', AsignacionController);
 app.use('/crear-ticket', ticketController);
 app.use('/tickets', ticketController);
 app.use('/ticketsP', ticketController);
 app.use('/ticketsR', ticketController);
+app.use('/ticketsM', ticketController)
 app.use('/todos-los-tickets', ticketController);
 app.use('/escalar-ticket', ticketController);
 

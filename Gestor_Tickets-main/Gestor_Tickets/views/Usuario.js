@@ -169,7 +169,6 @@ function cargarListaTicketsPendientes() {
                         <td>
                             <!-- Botones de acción -->
                             <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}">Ver</button>
-                            <button class="btn btn-sm btn-warning escalar-ticket" data-ticket-id="${ticket.ticket_id}" data-prioridad="3">Escalar</button>
                         </td>
                     </tr>
                 `);

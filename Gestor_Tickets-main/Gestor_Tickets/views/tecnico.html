@@ -125,6 +125,47 @@
     </div>
   </div>
 
+<!-- Modal de confirmación para escalar ticket -->
+<div class="modal fade" id="escalarModal" tabindex="-1" role="dialog" aria-labelledby="escalarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="escalarModalLabel">Confirmación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro que desea escalar este ticket hacia el administrador?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" id="confirmarEscalacionTicket">Sí, Escalar Ticket</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para mostrar la solución del ticket -->
+<div class="modal fade" id="solucionModal" tabindex="-1" role="dialog" aria-labelledby="solucionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="solucionModalLabel">Solución del Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="solucionContenido">
+                <!-- Aquí se mostrará la solución -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <!-- Tickets Pendientes -->
                 <div id="ticketsPendientes" class="content-section d-none">
                     <h2 class="mb-3">Tickets Pendientes</h2>

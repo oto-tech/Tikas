@@ -24,7 +24,10 @@ $(document).ready(function() {
             cargarListaTicketsPendientes();
         } else if(sectionId === 'ticketsResueltos') {
             cargarListaTicketsResueltos();
+        }else if (sectionId === 'MisTicket') {
+            cargarMisTicketsPendientes(); // Cargar todos los tickets
         }
+        
     }
 
     // Evento al hacer clic en un enlace del sidebar
@@ -91,88 +94,7 @@ $(document).ready(function() {
     // Funcionalidades de Tickets
     // -----------------------------
 
-    // Función para cargar la lista de tickets en el dashboard
-    function cargarListaTickets() {
-        $.ajax({
-            url: 'http://localhost:3000/tickets/todos-los-tickets',
-            method: 'GET',
-            success: function(response) {
-                const tickets = response.tickets;
-                const listaTickets = $('#listaTickets');
-                listaTickets.empty();
-
-                if (tickets.length === 0) {
-                    listaTickets.append(`
-                        <li class="list-group-item text-center">No hay tickets disponibles.</li>
-                    `);
-                    return;
-                }
-
-                tickets.forEach(ticket => {
-                    listaTickets.append(`
-                        <li class="list-group-item ticket-item" 
-                            data-description="${ticket.descripcion}" 
-                            data-created-by="${ticket.nombre_usuario}" 
-                            data-priority="${ticket.prioridad_id}" 
-                            data-ticket-id="${ticket.ticket_id}">
-                            ${ticket.asunto}
-                        </li>
-                    `);
-                });
-            },
-            error: function() {
-                console.error('Error al obtener los tickets');
-                showAlert('dashboardAlert', 'Error al cargar la lista de tickets.', 'danger');
-            }
-        });
-    }
-
-    // Función para cargar la lista de Tickets Pendientes
-function cargarListaTicketsPendientes() {
-    $.ajax({
-        url: 'http://localhost:3000/tickets/ticketsP', // Llamar al endpoint de tickets pendientes
-        method: 'GET',
-        success: function(response) {
-            const tickets = response.tickets.filter(ticket => ticket.prioridad_id == 3); 
-            const tablaPendientes = $('#tablaMisPendientes tbody');
-            tablaPendientes.empty(); // Limpiar la tabla antes de insertar nuevos datos
-
-            if (tickets.length === 0) {
-                tablaPendientes.append(`
-                    <tr>
-                        <td colspan="7" class="text-center">No hay tickets pendientes.</td>
-                    </tr>
-                `);
-                return;
-            }
-
-            tickets.forEach(ticket => {
-                tablaPendientes.append(`
-                    <tr>
-                        <td>${ticket.ticket_id}</td>
-                        <td>${ticket.asunto}</td>
-                        <td>${ticket.descripcion}</td>
-                        <td>${ticket.nombre_usuario}</td>
-                        <td>${obtenerPrioridad(ticket.prioridad_id)}</td>
-                        <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
-                        <td>
-                            <!-- Botones de acción -->
-                            <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}">Ver</button>
-                            
-                        </td>
-                    </tr>
-                `);
-            });
-        },
-        error: function() {
-            console.error('Error al obtener los tickets pendientes');
-            showAlert('ticketsPendientesAlert', 'Error al cargar los tickets pendientes.', 'danger');
-        }
-    });
-}
-
     
-
     // Función para cargar la lista de tickets en el Historial
     function cargarListaTicketsHistorial() {
         $.ajax({
@@ -217,6 +139,131 @@ function cargarListaTicketsPendientes() {
             }
         });
     }
+
+
+    // Función para cargar la lista de tickets en el dashboard
+    function cargarListaTickets() {
+        $.ajax({
+            url: 'http://localhost:3000/tickets/todos-los-tickets',
+            method: 'GET',
+            success: function(response) {
+                const tickets = response.tickets;
+                const listaTickets = $('#listaTickets');
+                listaTickets.empty();
+
+                if (tickets.length === 0) {
+                    listaTickets.append(`
+                        <li class="list-group-item text-center">No hay tickets disponibles.</li>
+                    `);
+                    return;
+                }
+
+                tickets.forEach(ticket => {
+                    listaTickets.append(`
+                        <li class="list-group-item ticket-item" 
+                            data-description="${ticket.descripcion}" 
+                            data-created-by="${ticket.nombre_usuario}" 
+                            data-priority="${ticket.prioridad_id}" 
+                            data-ticket-id="${ticket.ticket_id}">
+                            ${ticket.asunto}
+                        </li>
+                    `);
+                });
+            },
+            error: function() {
+                console.error('Error al obtener los tickets');
+                showAlert('dashboardAlert', 'Error al cargar la lista de tickets.', 'danger');
+            }
+        });
+    }
+
+// Función para cargar la lista de Tickets MIS Pendientes
+function cargarMisTicketsPendientes() {
+    $.ajax({
+        url: 'http://localhost:3000/tickets/ticketsM', // Llamar al endpoint de tickets pendientes
+        method: 'GET',
+        success: function(response) {
+            const tickets = response.tickets; // Asegúrate de que la respuesta tenga esta estructura
+            const tablaMiPendientes = $('#tablaMisPendientes tbody');
+            tablaMiPendientes.empty(); // Limpiar la tabla antes de insertar nuevos datos
+
+            if (tickets.length === 0) {
+                tablaMiPendientes.append(`
+                    <tr>
+                        <td colspan="7" class="text-center">No hay tickets pendientes.</td>
+                    </tr>
+                `);
+                return;
+            }
+
+            tickets.forEach(ticket => {
+                tablaMiPendientes.append(`
+                    <tr>
+                        <td>${ticket.ticket_id}</td>
+                        <td>${ticket.asunto}</td>
+                        <td>${ticket.descripcion}</td>
+                        <td>${ticket.nombre_usuario}</td>
+                        <td>${obtenerPrioridad(ticket.prioridad_id)}</td>
+                        <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
+                        <td>
+                            <!-- Botones de acción -->
+                            <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}" data-bs-toggle="modal" data-bs-target="#enviarRespuestaModal">Enviar Respuesta</button>
+                        </td>
+                    </tr>
+                `);
+            });
+        },
+        error: function() {
+            console.error('Error al obtener los tickets pendientes');
+            showAlert('ticketsPendientesAlert', 'Error al cargar los tickets pendientes.', 'danger');
+        }
+    });
+}
+
+// Lógica para manejar el envío de respuesta
+$(document).on('click', '.ver-detalles', function() {
+    const ticketId = $(this).data('ticket-id'); // Obtener el ID del ticket del botón
+    $('#respuestaTextArea').data('ticket-id', ticketId); // Guardar el ID en el área de texto
+});
+
+// Lógica para manejar el envío de respuesta
+$(document).on('click', '#btnEnviarRespuesta', function() {
+    // Obtener el ID del ticket desde el área de texto
+    const ticketId = $('#respuestaTextArea').data('ticket-id'); // Obtener el ticket_id guardado en el área de texto
+    const respuesta = $('#respuestaTextArea').val(); // Obtener el texto del área de texto
+
+    if (respuesta.trim() === "") {
+        alert("Por favor, escribe una respuesta.");
+        return;
+    }
+
+    // Realizar el UPDATE en la base de datos
+    $.ajax({
+        url: 'http://localhost:3000/respuesta', // Endpoint para actualizar la respuesta del ticket
+        method: 'PUT',
+        contentType: 'application/json', // Asegúrate de establecer el tipo de contenido
+        data: JSON.stringify({ ticket_id: ticketId, solucion: respuesta }), // Enviar el ticket_id y la solución en formato JSON
+        success: function(response) {
+            alert("Respuesta enviada con éxito.");
+            $('#enviarRespuestaModal').modal('hide'); // Cerrar el modal
+            cargarMisTicketsPendientes(); // Volver a cargar la lista de tickets
+        },
+        error: function(xhr) {
+            // Muestra un mensaje de error más específico
+            alert("Error al enviar la respuesta: " + (xhr.responseJSON ? xhr.responseJSON.message : "Error desconocido."));
+        }
+    });
+});
+
+// Llama a la función cuando sea necesario, por ejemplo, al cargar la página
+$(document).ready(function() {
+    cargarMisTicketsPendientes(); // Cargar los tickets pendientes al inicio
+});
+
+
+
+
+    
 
 
 // Función para cargar la lista de Tickets Pendientes
@@ -340,33 +387,7 @@ function cargarListaTicketsResueltos() {
     // Funcionalidades de Escalar Ticket en Pendientes
     // -----------------------------
 
-    // Manejar escalamiento de ticket desde la tabla de pendientes
-    $('.content').on('click', '.escalar-ticket', function() {
-        const ticketID = $(this).data('ticket-id');
-        const nuevoPrioridadID = $(this).data('prioridad'); // Por ejemplo, 3 para Alta
-
-        const agenteResponsableID = localStorage.getItem('usuario_id') || 1; // ID del administrador
-
-        $.ajax({
-            url: 'http://localhost:3000/tickets/escalar-ticket',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                ticketID: ticketID,
-                nuevoPrioridadID: nuevoPrioridadID,
-                motivo: "El ticket requiere atención de un nivel superior.",
-                agenteResponsableID: agenteResponsableID
-            }),
-            success: function() {
-                showAlert('ticketsPendientesAlert', 'Ticket escalado correctamente.', 'success');
-                cargarListaTicketsPendientes();
-            },
-            error: function(xhr) {
-                console.error('Error al escalar el ticket:', xhr.responseText);
-                showAlert('ticketsPendientesAlert', 'Error al escalar el ticket.', 'danger');
-            }
-        });
-    });
+    
 
     $('#ticketForm').on('submit', function(event) {
         event.preventDefault();
@@ -400,10 +421,6 @@ function cargarListaTicketsResueltos() {
                     // Mostrar mensaje de éxito
                     alert('Ticket creado correctamente');
 
-                  
-    
-                 
-    
                     // Limpiar el formulario solo después de la creación exitosa
                     $('#ticketForm')[0].reset();
                         // Cerrar el modal de confirmación

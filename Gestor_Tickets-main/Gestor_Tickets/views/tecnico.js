@@ -98,7 +98,9 @@ $(document).ready(function() {
             method: 'GET',
             success: function(response) {
                 const usuarioID = localStorage.getItem('usuario_id');
-                const tickets = response.tickets.filter(ticket => ticket.agente_asignado_id == usuarioID); // Filtrar por usuario_id
+                const tickets = response.tickets.filter(ticket => 
+                    ticket.agente_asignado_id == usuarioID && ticket.prioridad_id == 2
+                ); // Filtrar por usuario_id y prioridad_id
                 const tablaHistorial = $('#tablaHistorialTickets tbody');
                 tablaHistorial.empty(); // Limpiar la tabla antes de insertar nuevos datos
     
@@ -137,6 +139,8 @@ $(document).ready(function() {
     }
 
 
+
+    
 // Función para cargar la lista de Tickets Pendientes
 function cargarListaTicketsPendientes() {
     $.ajax({
@@ -144,7 +148,10 @@ function cargarListaTicketsPendientes() {
         method: 'GET',
         success: function(response) {
             const usuarioID = localStorage.getItem('usuario_id');
-            const tickets = response.tickets.filter(ticket => ticket.agente_asignado_id == usuarioID); // Filtrar por usuario_id
+            const tickets = response.tickets.filter(ticket => 
+                ticket.agente_asignado_id == usuarioID && ticket.prioridad_id == 2
+            ); // Filtrar por usuario_id y prioridad_id
+
             const tablaPendientes = $('#tablaTicketsPendientes tbody');
             tablaPendientes.empty(); // Limpiar la tabla antes de insertar nuevos datos
 
@@ -174,6 +181,15 @@ function cargarListaTicketsPendientes() {
                     </tr>
                 `);
             });
+
+            // Agregar el evento click a los botones de escalar usando delegación
+            tablaPendientes.on('click', '.escalar-ticket', function() {
+                const ticketId = $(this).data('ticket-id');
+                // Guardar el ID del ticket en el botón de escalación
+                $('#confirmarEscalacionTicket').data('ticket-id', ticketId);
+                // Abrir el modal
+                $('#escalarModal').modal('show');
+            });
         },
         error: function() {
             console.error('Error al obtener los tickets pendientes');
@@ -182,11 +198,33 @@ function cargarListaTicketsPendientes() {
     });
 }
 
+// Lógica para escalar
+$(document).on('click', '#confirmarEscalacionTicket', function() {
+    const ticketId = $(this).data('ticket-id'); // Obtener el ID del ticket
+    $.ajax({
+        url: 'http://localhost:3000/escalar', // Endpoint para escalar el ticket
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ ticket_id: ticketId }), // Enviar el ticket_id en formato JSON
+        success: function(response) {
+            alert("Ticket escalado con éxito.");
+            $('#escalarModal').modal('hide'); // Cerrar el modal
+            cargarListaTicketsPendientes(); // Volver a cargar la lista de tickets
+        },
+        error: function(xhr) {
+            alert("Error al escalar el ticket: " + (xhr.responseJSON ? xhr.responseJSON.message : "Error desconocido."));
+        }
+    });
+});
+
 // Lógica para manejar el envío de respuesta
 $(document).on('click', '.ver-detalles', function() {
     const ticketId = $(this).data('ticket-id'); // Obtener el ID del ticket desde el botón que se hizo clic
     $('#respuestaTextArea').data('ticket-id', ticketId); // Guardar el ticket_id en el área de texto
 });
+
+
+
 
 // Lógica para manejar el envío de respuesta
 $(document).on('click', '#btnEnviarRespuesta', function() {
@@ -219,15 +257,20 @@ $(document).on('click', '#btnEnviarRespuesta', function() {
 
 
 
+
+
+
 // Función para cargar la lista de Tickets Resueltos
 function cargarListaTicketsResueltos() {
     $.ajax({
         url: 'http://localhost:3000/tickets/ticketsR', // Llamar al endpoint de tickets resueltos
         method: 'GET',
         success: function(response) {
-
             const usuarioID = localStorage.getItem('usuario_id');
-            const tickets = response.tickets.filter(ticket => ticket.agente_asignado_id == usuarioID); // Filtrar por usuario_id
+            const tickets = response.tickets.filter(ticket => 
+                ticket.agente_asignado_id == usuarioID && ticket.prioridad_id == 2
+            ); // Filtrar por usuario_id y prioridad_id
+
             const tablaResueltos = $('#tablaTicketsResueltos tbody');
             tablaResueltos.empty(); // Limpiar la tabla antes de insertar nuevos datos
 
@@ -251,11 +294,16 @@ function cargarListaTicketsResueltos() {
                         <td>${new Date(ticket.fecha_creacion).toLocaleString()}</td> <!-- Formatear fecha -->
                         <td>${ticket.fecha_resolucion ? formatearFecha(ticket.fecha_resolucion) : 'N/A'}</td>
                         <td>
-                            <!-- Botones de acción -->
                             <button class="btn btn-sm btn-info ver-detalles" data-ticket-id="${ticket.ticket_id}">Ver</button>
                         </td>
                     </tr>
                 `);
+            });
+
+            // Agregar evento de clic a los botones "Ver"
+            $('.ver-detalles').on('click', function() {
+                const ticketId = $(this).data('ticket-id');
+                obtenerSolucion(ticketId); // Llama a la función para obtener la solución
             });
         },
         error: function() {
@@ -264,6 +312,35 @@ function cargarListaTicketsResueltos() {
         }
     });
 }
+
+// Función para obtener la solución del ticket
+function obtenerSolucion(ticketId) {
+    $.ajax({
+        url: `http://localhost:3000/tickets/solucion/${ticketId}`, // Endpoint para obtener la solución
+        method: 'GET',
+        success: function(response) {
+            // Asegúrate de que la respuesta tenga la estructura correcta
+            if (response && response.solucion) {
+                const solucion = response.solucion; // Ajusta esto según la estructura de tu respuesta
+                $('#solucionContenido').text(solucion); // Muestra la solución en el modal
+                $('#solucionModal').modal('show'); // Abre el modal
+            } else {
+                console.error('Respuesta inesperada:', response);
+                showAlert('solucionAlert', 'No se encontró la solución.', 'danger');
+            }
+        },
+        error: function() {
+            console.error('Error al obtener la solución del ticket');
+            showAlert('solucionAlert', 'Error al cargar la solución del ticket.', 'danger');
+        }
+    });
+}
+
+
+
+
+
+
 
     // Manejar clic en botones de "Ver Detalles" para mostrar información en el modal
     $('.content').on('click', '.ver-detalles', function() {
